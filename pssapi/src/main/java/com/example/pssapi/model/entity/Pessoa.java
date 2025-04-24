@@ -1,15 +1,28 @@
 package com.example.pssapi.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@MappedSuperclass
 public abstract class Pessoa {
-    protected String nome;
-    protected String dataNasc;
-    protected String cpf;
-    protected String telefone;
-    protected String logradouro;
-    protected String numero;
-    protected String complemento;
-    protected String bairro;
-    protected String cidade;
-    protected String estado;
-    protected String cep;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nome;
+    private String dataNasc;
+    private String cpf;
+    private String telefone;
+    private String logradouro;
+    private String numero;
+    private String complemento;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String cep;
 }
