@@ -20,7 +20,9 @@ public class Pedido {
     private String data;
     private int hora;
     private double preco;
-    private List<Produto> produtos;
+    @ManyToOne
+    private Produto produtos;
+    @ManyToOne
     private Fornecedor fornecedor;
 
 }
