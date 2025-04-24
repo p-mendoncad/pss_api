@@ -1,6 +1,7 @@
 package com.example.pssapi.model.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,5 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 public class Funcionario extends Pessoa {
+    @ManyToOne
     private Cargo cargo;
 }
