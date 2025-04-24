@@ -19,7 +19,7 @@ public class Fornecedor {
     private Long id;
 
     private String nome;
-    private String org;
+    private String cnpj;
     private String email;
     private String telefone;
     private String numero;
@@ -30,5 +30,5 @@ public class Fornecedor {
     private String estado;
     private String cep;
     private String dataCad;
-    private String tipoProd;
+    private List<TipoProduto> tipo;
 }

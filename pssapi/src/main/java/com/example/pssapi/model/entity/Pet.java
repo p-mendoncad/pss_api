@@ -15,6 +15,7 @@ public class Pet {
     private Long id;
 
     private String nome;
+    @ManyToOne
     private Raca raca;
     private float peso;
     private String dataNasc;
