@@ -2,7 +2,7 @@ package com.example.pssapi.model.entity;
 
 import java.util.List;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ public class Venda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private List<Produto> produtos;
+    // List<Produto> produtos;
     @ManyToOne
     private Cliente cliente;
 }

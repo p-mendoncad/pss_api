@@ -1,6 +1,6 @@
 package com.example.pssapi.model.entity;
 
-import jakarta.persistence.Entity;
+import javax.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
