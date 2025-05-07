@@ -1,0 +1,30 @@
+package com.example.pssapi.api.dto;
+
+import com.example.pssapi.model.entity.Funcionario;
+import com.example.pssapi.model.entity.Cargo;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class FuncionarioDTO {
+    private Long id;
+    private String nome;
+    private String cpf;
+    private String telefone;
+    private String email;
+    private String cep;
+    private Cargo cargo;
+    
+    public static FuncionarioDTO create(Funcionario funcionario){
+        ModelMapper modelMapper = new ModelMapper();
+        FuncionarioDTO dto = modelMapper.map(funcionario, FuncionarioDTO.class);
+
+        return dto;
+    }
+}
+
