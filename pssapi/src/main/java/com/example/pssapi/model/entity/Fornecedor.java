@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+//import org.hibernate.annotations.IdGeneratorType;
 
 @Data
 @NoArgsConstructor
@@ -29,5 +30,5 @@ public class Fornecedor {
     private String estado;
     private String cep;
     private String dataCad;
-    //private List<TipoProduto> tipo;
+
 }
