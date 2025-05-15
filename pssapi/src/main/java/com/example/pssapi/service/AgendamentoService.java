@@ -3,10 +3,9 @@ package com.example.pssapi.service;
 
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Agendamento;
-import com.example.pssapi.model.repository.AgendamentoRepository;
 
-import com.example.scaapi.model.entity.*;
-        import com.example.scaapi.model.repository.AlunoRepository;
+import com.example.pssapi.model.repository.AgendamentoRepository;
+import com.example.pssapi.model.entity.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +16,9 @@ import java.util.Optional;
 @Service
 public class AgendamentoService {
 
-    private AgendamentoRepositoryRepository repository;
+    private AgendamentoRepository repository;
 
-    public AgendamentoServiceService(AgendamentoRepositoryRepository repository) {
+    public AgendamentoService(AgendamentoRepository repository) {
         this.repository = repository;
     }
 
@@ -27,12 +26,12 @@ public class AgendamentoService {
         return repository.findAll();
     }
 
-    public Optional<Aluno> getAlunoById(Long id) {
+    public Optional<Agendamento> getAgendamentoById(Long id) {
         return repository.findById(id);
     }
 
     @Transactional
-    public Agendamento salvar(Agendamento aluno) {
+    public Agendamento salvar(Agendamento agendamento) {
         validar(agendamento);
         return repository.save(agendamento);
     }
@@ -47,11 +46,11 @@ public class AgendamentoService {
         if (agendamento.getId() == null || agendamento.getId() == 0) {
             throw new RegraNegocioException("Agendamento inválida");
         }
-        if (aluno.getNome() == null || aluno.getNome().trim().equals("")) {
-            throw new RegraNegocioException("Nome inválido");
+        if (agendamento.getServico() == null || agendamento.getServico().trim().equals("")) {
+            throw new RegraNegocioException("Serviço inválido");
         }
-        if (aluno.getCurso() == null || aluno.getCurso().getId() == null || aluno.getCurso().getId() == 0) {
-            throw new RegraNegocioException("Curso inválido");
+        if (agendamento.getPet() == null || agendamento.getPet().getId() == null || agendamento.getPet().getId().getId() == 0) {
+            throw new RegraNegocioException("Pet Inexistente");
         }
     }
 }{
