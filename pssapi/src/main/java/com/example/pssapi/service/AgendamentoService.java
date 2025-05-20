@@ -49,7 +49,7 @@ public class AgendamentoService {
         if (agendamento.getServico() == null || agendamento.getServico().trim().equals("")) {
             throw new RegraNegocioException("Serviço inválido");
         }
-        if (agendamento.getPet() == null || agendamento.getPet().getId() == null || agendamento.getPet().getId().getId() == 0) {
+        if (agendamento.getPet() == null || agendamento.getPet().getId() == null || agendamento.getPet().getId() == 0) {
             throw new RegraNegocioException("Pet Inexistente");
         }
     }
