@@ -13,7 +13,7 @@ import org.modelmapper.ModelMapper;
 
 public class VendaDTO {
     private Long id;
-    private Cliente cliente;
+    private Long idCliente;
 
     public static VendaDTO create(Venda venda){
         ModelMapper modelMapper = new ModelMapper();

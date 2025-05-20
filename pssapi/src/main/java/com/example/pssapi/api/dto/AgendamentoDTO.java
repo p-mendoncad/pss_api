@@ -1,6 +1,7 @@
 package com.example.pssapi.api.dto;
 
 import com.example.pssapi.model.entity.Agendamento;
+import com.example.pssapi.model.entity.Funcionario;
 import com.example.pssapi.model.entity.Pet;
 import com.example.pssapi.model.entity.Servico;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,9 @@ public class AgendamentoDTO {
     private String horaSaida;
     private String horario;
     private Servico servico;
-    private Pet pet;
+    private Long idPet;
+    private Long idFuncionario;
+    private Long idServico;
 
     public static AgendamentoDTO create(Agendamento agendamento){
         ModelMapper modelMapper = new ModelMapper();

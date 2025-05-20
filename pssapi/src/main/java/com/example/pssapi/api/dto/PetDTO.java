@@ -15,14 +15,14 @@ import org.modelmapper.ModelMapper;
 public class PetDTO {
     private Long id;
     private String nome;
-    private Raca raca;
+    private Long idRaca;
     private float peso;
     private String dataNasc;
     private String histoVac;
     private boolean sexo;
     private String histServ;
     private String obs;
-    private Cliente cliente;
+    private Long idCliente;
 
     public static PetDTO create(Pet pet){
         ModelMapper modelMapper = new ModelMapper();
