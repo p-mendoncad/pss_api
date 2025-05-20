@@ -18,7 +18,7 @@ public class ProdutoDTO {
     private String quantidadeMin;
     private String descricao;
     private String precoVenda;
-    private Setor setor;
+    private Long idSetor;
 
     public static ProdutoDTO create(Produto produto){
         ModelMapper modelMapper = new ModelMapper();
