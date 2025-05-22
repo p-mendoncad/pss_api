@@ -53,5 +53,4 @@ public class AgendamentoService {
             throw new RegraNegocioException("Pet Inexistente");
         }
     }
-}{
 }

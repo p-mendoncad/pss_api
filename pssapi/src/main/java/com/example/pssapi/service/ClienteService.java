@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Service
+
 public class ClienteService {
 
         private ClienteRepository repository;
@@ -46,4 +48,3 @@ public class ClienteService {
             }
         }
     }
-}

@@ -6,8 +6,15 @@ import com.example.pssapi.model.entity.Pet;
 import com.example.pssapi.service.ClienteService;
 import com.example.pssapi.service.PetService;
 import org.modelmapper.ModelMapper;
-
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+
+
+@RestController
+@RequestMapping("/api/v1/pets")
+@RequiredArgsConstructor
 
 public class PetController {
 

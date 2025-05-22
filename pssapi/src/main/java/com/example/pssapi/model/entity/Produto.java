@@ -17,6 +17,7 @@ public class Produto {
     private String nome;
     @ManyToOne
     private Fornecedor fornecedor;
+
     private String quantidade;
     private String quantidadeMin;
     private String descricao;
