@@ -3,6 +3,7 @@ package com.example.pssapi.service;
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Pet;
 import com.example.pssapi.model.repository.PetRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -40,12 +41,11 @@ public class PetService {
     }
 
     public void validar(Pet Pet) {
-        if (Pet.getId() == null || Pet.getId().trim().equals("")) {
+        if (Pet.getId() == null || Pet.getId() == 0) {
             throw new RegraNegocioException("Pet inválido");
         }
         if (Pet.getNome() == null || Pet.getNome().trim().equals("")) {
             throw new RegraNegocioException("Pet inválido");
         }
     }
-}
 }

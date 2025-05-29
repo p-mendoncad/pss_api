@@ -3,6 +3,7 @@ package com.example.pssapi.service;
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Setor;
 import com.example.pssapi.model.repository.SetorRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -39,12 +40,11 @@ public class SetorService {
         }
 
         public void validar(Setor Setor) {
-            if (Setor.getId() == null || Setor.getId().trim().equals("")) {
+            if (Setor.getId() == null || Setor.getId() == 0) {
                 throw new RegraNegocioException("Setor inválido");
             }
-            if (Setor.getNome() == null || Setor.getNome().trim().equals("")) {
+            if (Setor.getNomeSetor() == null || Setor.getNomeSetor().trim().equals("")) {
                 throw new RegraNegocioException("Setor inválido");
             }
         }
     }
-}

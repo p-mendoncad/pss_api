@@ -3,6 +3,7 @@ package com.example.pssapi.service;
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Servico;
 import com.example.pssapi.model.repository.ServicoRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -38,13 +39,12 @@ public class ServicoService {
             repository.delete(Servico);
         }
 
-        public void validar(Servico Servico) {
-            if (Servico.getId() == null || Servico.getId().trim().equals("")) {
+        public void validar(Servico servico) {
+            if (servico.getId() == null || servico.getId() == 0) {
                 throw new RegraNegocioException("Servico inválido");
             }
-            if (Servico.getNome() == null || Servico.getNome().trim().equals("")) {
+            if (servico.getNome() == null || servico.getNome().trim().equals("")) {
                 throw new RegraNegocioException("Servico inválido");
             }
         }
     }
-}

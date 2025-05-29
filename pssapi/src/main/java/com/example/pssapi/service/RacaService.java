@@ -3,6 +3,7 @@ package com.example.pssapi.service;
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Raca;
 import com.example.pssapi.model.repository.RacaRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -28,24 +29,23 @@ public class RacaService {
         }
 
         @Transactional
-        public Raca salvar(Raca Raca) {
-            validar(Raca);
-            return repository.save(Raca);
+        public Raca salvar(Raca raca) {
+            validar(raca);
+            return repository.save(raca);
         }
 
         @Transactional
-        public void excluir(Raca Raca) {
-            Objects.requireNonNull(Raca.getId());
-            repository.delete(Raca);
+        public void excluir(Raca raca) {
+            Objects.requireNonNull(raca.getId());
+            repository.delete(raca);
         }
 
-        public void validar(Raca Raca) {
-            if (Raca.getId() == null || Raca.getId().trim().equals("")) {
+        public void validar(Raca raca) {
+            if (raca.getId() == null || raca.getId() == 0) {
                 throw new RegraNegocioException("Raca inválido");
             }
-            if (Raca.getNome() == null || Raca.getNome().trim().equals("")) {
+            if (raca.getNome() == null || raca.getNome().trim().equals("")) {
                 throw new RegraNegocioException("Raca inválido");
             }
         }
     }
-}
