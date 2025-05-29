@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 
 public class ServicoDTO {
     private Long id;
+    private Long idCargo;
     private String Nome;
     private float preco;
     private int duracaoMinutos;

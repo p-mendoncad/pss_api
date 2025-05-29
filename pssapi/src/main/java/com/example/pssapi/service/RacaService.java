@@ -1,7 +1,7 @@
 package com.example.pssapi.service;
 
 import com.example.pssapi.exception.RegraNegocioException;
-import com.example.pssapi.model.entity.Raca;
+import com.example.pssapi.model.entity.*;
 import com.example.pssapi.model.repository.RacaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +17,7 @@ public class RacaService {
         private RacaRepository repository;
 
         public RacaService(RacaRepository repository) {
+
             this.repository = repository;
         }
 

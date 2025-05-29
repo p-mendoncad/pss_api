@@ -46,7 +46,7 @@ public class AgendamentoService {
         if (agendamento.getId() == null || agendamento.getId() == 0) {
             throw new RegraNegocioException("Agendamento inválida");
         }
-        if (agendamento.getServico() == null || agendamento.getServico().trim().equals("")) {
+        if (agendamento.getServico() == null || agendamento.getServico().getId() == null || agendamento.getServico().getId() == 0) {
             throw new RegraNegocioException("Serviço inválido");
         }
         if (agendamento.getPet() == null || agendamento.getPet().getId() == null || agendamento.getPet().getId() == 0) {

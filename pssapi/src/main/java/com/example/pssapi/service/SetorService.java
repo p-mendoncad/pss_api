@@ -19,7 +19,7 @@ public class SetorService {
             this.repository = repository;
         }
 
-        public List<Setor> getSetors() {
+        public List<Setor> getSetores() {
             return repository.findAll();
         }
 

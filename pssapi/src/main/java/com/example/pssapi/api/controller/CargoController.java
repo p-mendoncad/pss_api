@@ -1,8 +1,5 @@
 package com.example.pssapi.api.controller;
 
-import com.example.pssapi.exception.RegraNegocioException;
-
-
 import com.example.pssapi.model.entity.Cargo;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +24,14 @@ public class CargoController {
 
     private final CargoService service;
 
+    @GetMapping()
+    public ResponseEntity get() {
+        List<Cargo> cargos = service.getCargos();
+        return ResponseEntity.ok(cargos.stream().map(CargoDTO::create).collect(Collectors.toList()));
+    }
+
     public Cargo converter(CargoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(dto, Cargo.class);
-
     }
 }

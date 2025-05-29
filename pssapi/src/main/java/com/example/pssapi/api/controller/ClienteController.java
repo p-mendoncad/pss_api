@@ -1,5 +1,7 @@
 package com.example.pssapi.api.controller;
 
+import com.example.pssapi.model.entity.Cargo;
+import com.example.pssapi.model.entity.Cliente;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,12 +23,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 
 public class ClienteController {
-    
-    private final clienteService service;
 
-    public cliente converter(clienteDTO dto) {
+    private final ClienteService service;
+
+    @GetMapping()
+    public ResponseEntity get() {
+        List<Cliente> clientes = service.getClientes();
+        return ResponseEntity.ok(clientes.stream().map(ClienteDTO::create).collect(Collectors.toList()));
+    }
+
+    public Cliente converter(ClienteDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(dto, cliente.class);
-
+        return modelMapper.map(dto, Cliente.class);
     }
 }

@@ -5,11 +5,11 @@ import com.example.pssapi.model.entity.Raca;
 
 import com.example.pssapi.service.RacaService;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-
-import com.example.pssapi.api.dto.RacaDTO;
-import com.example.pssapi.service.RacaService;
-import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +22,12 @@ import java.util.stream.Collectors;
 public class RacaController {
 
     private final RacaService service;
+
+    @GetMapping()
+    public ResponseEntity get() {
+        List<Raca> racas = service.getRacas();
+        return ResponseEntity.ok(racas.stream().map(RacaDTO::create).collect(Collectors.toList()));
+    }
 
     public Raca converter(RacaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();

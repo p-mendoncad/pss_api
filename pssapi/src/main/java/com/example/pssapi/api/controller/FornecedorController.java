@@ -1,6 +1,7 @@
 package com.example.pssapi.api.controller;
 
 import com.example.pssapi.api.dto.FornecedorDTO;
+import com.example.pssapi.model.entity.Fornecedor;
 import com.example.pssapi.service.FornecedorService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,12 @@ public class FornecedorController {
 
     private final FornecedorService service;
 
+    @GetMapping()
+    public ResponseEntity get() {
+        List<Fornecedor> fornecedores = service.getFornecedores();
+        return ResponseEntity.ok(fornecedores.stream().map(FornecedorDTO::create).collect(Collectors.toList()));
+    }
+    
     public Fornecedor converter(FornecedorDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(dto, Fornecedor.class);

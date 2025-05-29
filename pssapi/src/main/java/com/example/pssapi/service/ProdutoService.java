@@ -2,6 +2,8 @@ package com.example.pssapi.service;
 
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Produto;
+import org.springframework.stereotype.Service;
+
 import com.example.pssapi.model.repository.ProdutoRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+
 public class ProdutoService {
 
     private ProdutoRepository repository;
@@ -39,7 +42,7 @@ public class ProdutoService {
     }
 
     public void validar(Produto Produto) {
-        if (Produto.getId() == null || Produto.getId().trim().equals("")) {
+        if (Produto.getId() == null || Produto.getId() == 0) {
             throw new RegraNegocioException("Produto inválido");
         }
         if (Produto.getNome() == null || Produto.getNome().trim().equals("")) {

@@ -2,6 +2,7 @@ package com.example.pssapi.service;
 
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Cliente;
+import org.springframework.stereotype.Service;
 import com.example.pssapi.model.repository.ClienteRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ public class ClienteService {
         }
 
         public void validar(Cliente Cliente) {
-            if (Cliente.getId() == null || Cliente.getId().trim().equals("")) {
+            if (Cliente.getId() == null || Cliente.getId() == 0) {
                 throw new RegraNegocioException("Cliente inválido");
             }
             if (Cliente.getNome() == null || Cliente.getNome().trim().equals("")) {

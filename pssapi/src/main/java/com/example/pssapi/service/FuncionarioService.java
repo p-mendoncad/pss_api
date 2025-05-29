@@ -2,6 +2,7 @@ package com.example.pssapi.service;
 
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Funcionario;
+import org.springframework.stereotype.Service;
 import com.example.pssapi.model.repository.FuncionarioRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,12 +40,12 @@ public class FuncionarioService {
         repository.delete(Funcionario);
     }
 
-    public void validar(Fornecedor fornecedor) {
-        if (fornecedor.getId() == null) {
-            throw new RegraNegocioException("ID do fornecedor inválido");
+    public void validar(Funcionario Funcionario) {
+        if (Funcionario.getId() == null || Funcionario.getId() == 0) {
+            throw new RegraNegocioException("Funcionário inválido");
         }
-        if (fornecedor.getNome() == null || fornecedor.getNome().trim().equals("")) {
-            throw new RegraNegocioException("Nome do fornecedor inválido");
+        if (Funcionario.getNome() == null || Funcionario.getNome().trim().equals("")) {
+            throw new RegraNegocioException("Funcionário inválido");
         }
     }
 }

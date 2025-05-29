@@ -16,8 +16,9 @@ import com.example.pssapi.model.entity.Servico;
 import com.example.pssapi.model.entity.Agendamento;
 import com.example.pssapi.service.ServicoService;
 
-
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/agendamentos")
@@ -25,28 +26,34 @@ import java.util.Optional;
 
 public class AgendamentoController {
 
-    private final Agendamento service;
-    private final PetService disciplinaService;
+    private final AgendamentoService service;
+    private final PetService petService;
+    private final ServicoService servicoService;
+
+    @GetMapping()
+    public ResponseEntity get() {
+        List<Agendamento> agendamentos = service.getAgendamentos();
+        return ResponseEntity.ok(agendamentos.stream().map(AgendamentoDTO::create).collect(Collectors.toList()));
+    }
 
     public Agendamento converter(AgendamentoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Agendamento Agendamento = modelMapper.map(dto, Agendamento.class);
         if (dto.getIdServico() != null) {
-            Optional<Servico> Servico = ServicoService.getServicoById(dto.getIdServico());
-            if (!Servico.isPresent()) {
+            Optional<Servico> servico = servicoService.getServicoById(dto.getIdServico());
+            if (!servico.isPresent()) {
                 Agendamento.setServico(null);
             } else {
-                Agendamento.setServico(Servico.get());
+                Agendamento.setServico(servico.get());
             }
-            if (dto.getIdPet() != null) {
-                Optional<Pet> Pet = ServicoService.getPetById(dto.getIdPet());
-                if (!Pet.isPresent()) {
-                    Agendamento.setPet(null);
-                } else {
-                    Agendamento.setPet(Pet.get());
-                }
+        }
+        if (dto.getIdPet() != null) {
+            Optional<Pet> pet = petService.getPetById(dto.getIdPet());
+            if (!pet.isPresent()) {
+                Agendamento.setPet(null);
+            } else {
+                Agendamento.setPet(pet.get());
             }
-            return Agendamento;
         }
         return Agendamento;
     }

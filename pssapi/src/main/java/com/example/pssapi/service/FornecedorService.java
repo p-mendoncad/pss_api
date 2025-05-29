@@ -1,6 +1,7 @@
 package com.example.pssapi.service;
 
 import com.example.pssapi.exception.RegraNegocioException;
+import org.springframework.stereotype.Service;
 import com.example.pssapi.model.entity.Fornecedor;
 import com.example.pssapi.model.repository.FornecedorRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ public class FornecedorService {
             this.repository = repository;
         }
 
-        public List<Fornecedor> getFornecedors() {
+        public List<Fornecedor> getFornecedores() {
             return repository.findAll();
         }
 
@@ -40,7 +41,7 @@ public class FornecedorService {
         }
 
         public void validar(Fornecedor Fornecedor) {
-            if (Fornecedor.getId() == null || Fornecedor.getId().trim().equals("")) {
+            if (Fornecedor.getId() == null || Fornecedor.getId() == 0) {
                 throw new RegraNegocioException("Fornecedor inválido");
             }
             if (Fornecedor.getNome() == null || Fornecedor.getNome().trim().equals("")) {

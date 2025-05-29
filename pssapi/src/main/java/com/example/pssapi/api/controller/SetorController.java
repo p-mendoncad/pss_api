@@ -1,14 +1,18 @@
 package com.example.pssapi.api.controller;
 
+import com.example.pssapi.api.dto.CargoDTO;
 import com.example.pssapi.api.dto.SetorDTO;
 import com.example.pssapi.api.dto.SetorDTO;
+import com.example.pssapi.model.entity.Cargo;
 import com.example.pssapi.model.entity.Setor;
 import com.example.pssapi.model.entity.Setor;
 import com.example.pssapi.service.SetorService;
 import com.example.pssapi.service.SetorService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +28,12 @@ import java.util.stream.Collectors;
 public class SetorController {
 
     private final SetorService service;
+
+    @GetMapping()
+    public ResponseEntity get() {
+        List<Setor> setores = service.getSetores();
+        return ResponseEntity.ok(setores.stream().map(SetorDTO::create).collect(Collectors.toList()));
+    }
 
     public Setor converter(SetorDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
