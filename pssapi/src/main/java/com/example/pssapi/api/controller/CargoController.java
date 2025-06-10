@@ -24,10 +24,20 @@ public class CargoController {
 
     private final CargoService service;
 
+
     @GetMapping()
     public ResponseEntity get() {
         List<Cargo> cargos = service.getCargos();
         return ResponseEntity.ok(cargos.stream().map(CargoDTO::create).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity get(@PathVariable("id") Long id) {
+        Optional<Cargo> cargo = service.getCargoById(id);
+        if (!cargo.isPresent()) {
+            return new ResponseEntity("Cargo não encontrado", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(cargo.map(CargoDTO::create));
     }
 
     public Cargo converter(CargoDTO dto) {

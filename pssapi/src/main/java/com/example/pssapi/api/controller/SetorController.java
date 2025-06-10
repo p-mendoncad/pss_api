@@ -35,6 +35,16 @@ public class SetorController {
         return ResponseEntity.ok(setores.stream().map(SetorDTO::create).collect(Collectors.toList()));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity get(@PathVariable("id") Long id) {
+        Optional<Setor> setor = service.getSetorById(id);
+        if (!setor.isPresent()) {
+            return new ResponseEntity("Setor não encontrado", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(setor.map(SetorDTO::create));
+    }
+
+
     public Setor converter(SetorDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(dto, Setor.class);

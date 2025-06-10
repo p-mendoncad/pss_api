@@ -31,6 +31,14 @@ public class ClienteController {
         List<Cliente> clientes = service.getClientes();
         return ResponseEntity.ok(clientes.stream().map(ClienteDTO::create).collect(Collectors.toList()));
     }
+    @GetMapping("/{id}")
+    public ResponseEntity get(@PathVariable("id") Long id) {
+        Optional<Cliente> cliente = service.getAlunoById(id);
+        if (!cliente.isPresent()) {
+            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(cliente.map(ClienteDTO::create));
+    }
 
     public Cliente converter(ClienteDTO dto) {
         ModelMapper modelMapper = new ModelMapper();

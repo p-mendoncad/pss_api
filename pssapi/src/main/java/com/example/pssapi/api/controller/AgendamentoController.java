@@ -36,6 +36,15 @@ public class AgendamentoController {
         return ResponseEntity.ok(agendamentos.stream().map(AgendamentoDTO::create).collect(Collectors.toList()));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity get(@PathVariable("id") Long id) {
+        Optional<Agendamento> agendamento = service.getAgendamentoById(id);
+        if (!agendamento.isPresent()) {
+            return new ResponseEntity("Agendamento não encontrado", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(agendamento.map(AgendamentoDTO::create));
+    }
+
     public Agendamento converter(AgendamentoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Agendamento Agendamento = modelMapper.map(dto, Agendamento.class);

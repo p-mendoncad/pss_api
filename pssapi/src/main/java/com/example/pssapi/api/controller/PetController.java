@@ -27,6 +27,14 @@ public class PetController {
         List<Pet> pets = service.getPets();
         return ResponseEntity.ok(pets.stream().map(PetDTO::create).collect(Collectors.toList()));
     }
+    @GetMapping("/{id}")
+    public ResponseEntity get(@PathVariable("id") Long id) {
+        Optional<Pet> pet = service.getPetById(id);
+        if (!pet.isPresent()) {
+            return new ResponseEntity("Pet não encontrado", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(pet.map(PetDTO::create));
+    }
 
     public Pet converter(PetDTO dto) {
         ModelMapper modelMapper = new ModelMapper();

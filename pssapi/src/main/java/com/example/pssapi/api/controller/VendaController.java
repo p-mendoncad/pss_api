@@ -29,6 +29,16 @@ public class VendaController {
         return ResponseEntity.ok(vendas.stream().map(VendaDTO::create).collect(Collectors.toList()));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity get(@PathVariable("id") Long id) {
+        Optional<Venda> venda = service.getVendaById(id);
+        if (!venda.isPresent()) {
+            return new ResponseEntity("Venda não encontrada", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(venda.map(Venda::create));
+    }
+
+
     public Venda converter(VendaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(dto, Venda.class);

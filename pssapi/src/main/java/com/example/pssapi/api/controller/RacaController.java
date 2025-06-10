@@ -28,6 +28,15 @@ public class RacaController {
         List<Raca> racas = service.getRacas();
         return ResponseEntity.ok(racas.stream().map(RacaDTO::create).collect(Collectors.toList()));
     }
+    @GetMapping("/{id}")
+    public ResponseEntity get(@PathVariable("id") Long id) {
+        Optional<Raca> raca = service.getRacaById(id);
+        if (!raca.isPresent()) {
+            return new ResponseEntity("Raça não encontrada", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(raca.map(RacaDTO::create));
+    }
+
 
     public Raca converter(RacaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();

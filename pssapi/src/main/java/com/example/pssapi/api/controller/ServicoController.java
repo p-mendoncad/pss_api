@@ -33,6 +33,15 @@ public class ServicoController {
         List<Servico> servicos = service.getServicos();
         return ResponseEntity.ok(servicos.stream().map(ServicoDTO::create).collect(Collectors.toList()));
     }
+    @GetMapping("/{id}")
+    public ResponseEntity get(@PathVariable("id") Long id) {
+        Optional<Servico> servico = service.getServicoById(id);
+        if (!servico.isPresent()) {
+            return new ResponseEntity("Servico não encontrado", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(servico.map(ServicoDTO::create));
+    }
+
 
     public Servico converter(ServicoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();

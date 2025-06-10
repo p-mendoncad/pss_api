@@ -30,6 +30,21 @@ public class ProdutoController {
     private final FornecedorService fornecedorService;
     private final SetorService setorService;
 
+    @GetMapping()
+    public ResponseEntity get() {
+        List<Produto> produtos = service.getProdutos();
+        return ResponseEntity.ok(produtos.stream().map(ProdutoDTO::create).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity get(@PathVariable("id") Long id) {
+        Optional<Produto> produto = service.getProdutoById(id);
+        if (!produto.isPresent()) {
+            return new ResponseEntity("Produto não encontrado", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(produto.map(ProdutoDTO::create));
+    }
+
     public Produto converter(ProdutoDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         Produto Produto = modelMapper.map(dto, Produto.class);
