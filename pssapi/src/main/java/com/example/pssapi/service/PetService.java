@@ -29,15 +29,15 @@ public class PetService {
     }
 
     @Transactional
-    public Pet salvar(Pet Pet) {
-        validar(Pet);
-        return repository.save(Pet);
+    public Pet salvar(Pet pet) {
+        validar(pet);
+        return repository.save(pet);
     }
 
     @Transactional
-    public void excluir(Pet Pet) {
-        Objects.requireNonNull(Pet.getId());
-        repository.delete(Pet);
+    public void excluir(Pet pet) {
+        Objects.requireNonNull(pet.getId());
+        repository.delete(pet);
     }
 
     public void validar(Pet Pet) {

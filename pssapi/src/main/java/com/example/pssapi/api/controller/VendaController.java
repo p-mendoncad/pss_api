@@ -35,7 +35,7 @@ public class VendaController {
         if (!venda.isPresent()) {
             return new ResponseEntity("Venda não encontrada", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(venda.map(Venda::create));
+        return ResponseEntity.ok(venda.map(VendaDTO::create));
     }
 
 

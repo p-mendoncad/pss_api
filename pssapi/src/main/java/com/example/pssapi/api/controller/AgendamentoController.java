@@ -1,5 +1,6 @@
 package com.example.pssapi.api.controller;
 
+import com.example.pssapi.api.dto.PetDTO;
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.service.AgendamentoService;
 import com.example.pssapi.service.PetService;
@@ -43,6 +44,32 @@ public class AgendamentoController {
             return new ResponseEntity("Agendamento não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(agendamento.map(AgendamentoDTO::create));
+    }
+
+    @PostMapping()
+    public ResponseEntity post(AgendamentoDTO dto) {
+        try {
+            Agendamento agendamento = converter(dto);
+            agendamento = service.salvar(agendamento);
+            return new ResponseEntity(agendamento, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, AgendamentoDTO dto) {
+        if (!service.getAgendamentoById(id).isPresent()) {
+            return new ResponseEntity("Agendamento não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Agendamento agendamento = converter(dto);
+            agendamento.setId(id);
+            service.salvar(agendamento);
+            return ResponseEntity.ok(agendamento);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     public Agendamento converter(AgendamentoDTO dto) {

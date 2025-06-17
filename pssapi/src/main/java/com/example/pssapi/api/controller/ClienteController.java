@@ -33,7 +33,7 @@ public class ClienteController {
     }
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable("id") Long id) {
-        Optional<Cliente> cliente = service.getAlunoById(id);
+        Optional<Cliente> cliente = service.getClienteById(id);
         if (!cliente.isPresent()) {
             return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
         }
