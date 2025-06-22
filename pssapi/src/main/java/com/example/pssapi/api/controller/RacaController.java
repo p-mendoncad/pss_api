@@ -1,6 +1,7 @@
 package com.example.pssapi.api.controller;
 
 import com.example.pssapi.api.dto.RacaDTO;
+import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Raca;
 
 import com.example.pssapi.service.RacaService;
@@ -36,11 +37,34 @@ public class RacaController {
         }
         return ResponseEntity.ok(raca.map(RacaDTO::create));
     }
+    @PostMapping()
+    public ResponseEntity post(RacaDTO dto) {
+        try {
+            Raca raca = converter(dto);
+            raca = service.salvar(raca);
+            return new ResponseEntity(raca, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, RacaDTO dto) {
+        if (!service.getRacaById(id).isPresent()) {
+            return new ResponseEntity("Raça não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Raca raca = converter(dto);
+            raca.setId(id);
+            service.salvar(raca);
+            return ResponseEntity.ok(raca);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     public Raca converter(RacaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(dto, Raca.class);
     }
 }
-    
