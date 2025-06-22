@@ -1,7 +1,10 @@
 package com.example.pssapi.api.controller;
 
+import com.example.pssapi.api.dto.PetDTO;
+import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Cargo;
 import com.example.pssapi.model.entity.Cliente;
+import com.example.pssapi.model.entity.Pet;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -38,6 +41,32 @@ public class ClienteController {
             return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(cliente.map(ClienteDTO::create));
+    }
+
+    @PostMapping()
+    public ResponseEntity post(ClienteDTO dto) {
+        try {
+            Cliente cliente = converter(dto);
+            cliente = service.salvar(cliente);
+            return new ResponseEntity(cliente, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, ClienteDTO dto) {
+        if (!service.getClienteById(id).isPresent()) {
+            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Cliente cliente = converter(dto);
+            cliente.setId(id);
+            service.salvar(cliente);
+            return ResponseEntity.ok(cliente);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     public Cliente converter(ClienteDTO dto) {
