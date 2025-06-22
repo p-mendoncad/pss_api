@@ -1,6 +1,7 @@
 package com.example.pssapi.api.controller;
 
 import com.example.pssapi.api.dto.FuncionarioDTO;
+import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Funcionario;
 import com.example.pssapi.service.FuncionarioService;
 import io.swagger.annotations.*;
@@ -35,6 +36,32 @@ public class FuncionarioController {
             return new ResponseEntity("Funcionario não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(funcionario.map(FuncionarioDTO::create));
+    }
+
+    @PostMapping()
+    public ResponseEntity post(FuncionarioDTO dto) {
+        try {
+            Funcionario funcionario = converter(dto);
+            funcionario = service.salvar(funcionario);
+            return new ResponseEntity(funcionario, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, FuncionarioDTO dto) {
+        if (!service.getFuncionarioById(id).isPresent()) {
+            return new ResponseEntity("Funcionário não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Funcionario funcionario = converter(dto);
+            funcionario.setId(id);
+            service.salvar(funcionario);
+            return ResponseEntity.ok(funcionario);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     public Funcionario converter(FuncionarioDTO dto) {
