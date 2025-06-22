@@ -1,6 +1,7 @@
 package com.example.pssapi.api.controller;
 
 import com.example.pssapi.api.dto.FornecedorDTO;
+import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Fornecedor;
 import com.example.pssapi.service.FornecedorService;
 import io.swagger.annotations.*;
@@ -37,7 +38,34 @@ public class FornecedorController {
         }
         return ResponseEntity.ok(fornecedor.map(FornecedorDTO::create));
     }
-    
+
+    @PostMapping()
+    public ResponseEntity post(FornecedorDTO dto) {
+        try {
+            Fornecedor fornecedor = converter(dto);
+            fornecedor = service.salvar(fornecedor);
+            return new ResponseEntity(fornecedor, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, FornecedorDTO dto) {
+        if (!service.getFornecedorById(id).isPresent()) {
+            return new ResponseEntity("Fornecedor não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Fornecedor fornecedor = converter(dto);
+            fornecedor.setId(id);
+            service.salvar(fornecedor);
+            return ResponseEntity.ok(fornecedor);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
     public Fornecedor converter(FornecedorDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(dto, Fornecedor.class);
