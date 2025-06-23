@@ -1,6 +1,7 @@
 package com.example.pssapi.api.controller;
 
 import com.example.pssapi.api.dto.ServicoDTO;
+import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Servico;
 import com.example.pssapi.model.entity.Cargo;
 import com.example.pssapi.service.CargoService;
@@ -38,6 +39,32 @@ public class ServicoController {
             return new ResponseEntity("Servico não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(servico.map(ServicoDTO::create));
+    }
+
+    @PostMapping()
+    public ResponseEntity post(ServicoDTO dto) {
+        try {
+            Servico servico = converter(dto);
+            servico = service.salvar(servico);
+            return new ResponseEntity(servico, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, ServicoDTO dto) {
+        if (!service.getServicoById(id).isPresent()) {
+            return new ResponseEntity("Serviço não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Servico servico = converter(dto);
+            servico.setId(id);
+            service.salvar(servico);
+            return ResponseEntity.ok(servico);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 
