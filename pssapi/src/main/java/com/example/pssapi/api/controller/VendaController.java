@@ -2,6 +2,7 @@ package com.example.pssapi.api.controller;
 
 
 import com.example.pssapi.api.dto.VendaDTO;
+import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Venda;
 import com.example.pssapi.service.VendaService;
 
@@ -36,6 +37,32 @@ public class VendaController {
             return new ResponseEntity("Venda não encontrada", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(venda.map(VendaDTO::create));
+    }
+
+    @PostMapping()
+    public ResponseEntity post(VendaDTO dto) {
+        try {
+            Venda venda = converter(dto);
+            venda = service.salvar(venda);
+            return new ResponseEntity(venda, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, VendaDTO dto) {
+        if (!service.getVendaById(id).isPresent()) {
+            return new ResponseEntity("Venda não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Venda venda = converter(dto);
+            venda.setId(id);
+            service.salvar(venda);
+            return ResponseEntity.ok(venda);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 
