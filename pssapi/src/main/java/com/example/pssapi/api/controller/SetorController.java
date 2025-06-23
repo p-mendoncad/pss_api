@@ -3,6 +3,7 @@ package com.example.pssapi.api.controller;
 import com.example.pssapi.api.dto.CargoDTO;
 import com.example.pssapi.api.dto.SetorDTO;
 import com.example.pssapi.api.dto.SetorDTO;
+import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Cargo;
 import com.example.pssapi.model.entity.Setor;
 import com.example.pssapi.model.entity.Setor;
@@ -40,6 +41,32 @@ public class SetorController {
             return new ResponseEntity("Setor não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(setor.map(SetorDTO::create));
+    }
+
+    @PostMapping()
+    public ResponseEntity post(SetorDTO dto) {
+        try {
+            Setor setor = converter(dto);
+            setor = service.salvar(setor);
+            return new ResponseEntity(setor, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, SetorDTO dto) {
+        if (!service.getSetorById(id).isPresent()) {
+            return new ResponseEntity("Setor não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Setor setor = converter(dto);
+            setor.setId(id);
+            service.salvar(setor);
+            return ResponseEntity.ok(setor);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 
