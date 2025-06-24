@@ -19,7 +19,6 @@ public class AgendamentoDTO {
     private String horaEntrada;
     private String horaSaida;
     private String horario;
-    private Servico servico;
     private Long idPet;
     private Long idFuncionario;
     private Long idServico;

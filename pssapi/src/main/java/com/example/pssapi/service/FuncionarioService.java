@@ -41,9 +41,6 @@ public class FuncionarioService {
     }
 
     public void validar(Funcionario Funcionario) {
-        if (Funcionario.getId() == null || Funcionario.getId() == 0) {
-            throw new RegraNegocioException("Funcionário inválido");
-        }
         if (Funcionario.getNome() == null || Funcionario.getNome().trim().equals("")) {
             throw new RegraNegocioException("Funcionário inválido");
         }

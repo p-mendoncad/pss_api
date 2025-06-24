@@ -47,18 +47,19 @@ public class ProdutoController {
     }
 
     @PostMapping()
-    public ResponseEntity post(ProdutoDTO dto) {
+    public ResponseEntity post(@RequestBody ProdutoDTO dto) {
         try {
             Produto produto = converter(dto);
             produto = service.salvar(produto);
             return new ResponseEntity(produto, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            Produto produto = converter(dto);
+            return ResponseEntity.badRequest().body(e.getMessage() + produto);
         }
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, ProdutoDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id,@RequestBody ProdutoDTO dto) {
         if (!service.getProdutoById(id).isPresent()) {
             return new ResponseEntity("Produto não encontrado", HttpStatus.NOT_FOUND);
         }

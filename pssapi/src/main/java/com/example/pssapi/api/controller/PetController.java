@@ -56,7 +56,7 @@ public class PetController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, PetDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id,@RequestBody PetDTO dto) {
         if (!service.getPetById(id).isPresent()) {
             return new ResponseEntity("Pet não encontrado", HttpStatus.NOT_FOUND);
         }

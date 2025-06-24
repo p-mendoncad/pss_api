@@ -44,9 +44,6 @@ public class CargoService {
     }
 
     public void validar(Cargo Cargo) {
-        if (Cargo.getId() == null || Cargo.getId() == 0) {
-            throw new RegraNegocioException("Cargo inválido");
-        }
         if (Cargo.getNome() == null || Cargo.getNome().trim().equals("")) {
             throw new RegraNegocioException("Cargo inválido");
         }

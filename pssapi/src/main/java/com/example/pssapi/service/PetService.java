@@ -41,9 +41,6 @@ public class PetService {
     }
 
     public void validar(Pet Pet) {
-        if (Pet.getId() == null || Pet.getId() == 0) {
-            throw new RegraNegocioException("Pet inválido");
-        }
         if (Pet.getNome() == null || Pet.getNome().trim().equals("")) {
             throw new RegraNegocioException("Pet inválido");
         }

@@ -2,8 +2,10 @@ package com.example.pssapi.api.controller;
 
 import com.example.pssapi.api.dto.FuncionarioDTO;
 import com.example.pssapi.exception.RegraNegocioException;
+import com.example.pssapi.model.entity.Cargo;
 import com.example.pssapi.model.entity.Funcionario;
 import com.example.pssapi.service.FuncionarioService;
+import com.example.pssapi.service.CargoService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class FuncionarioController {
 
     private final FuncionarioService service;
+    private final CargoService cargoService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -39,7 +42,7 @@ public class FuncionarioController {
     }
 
     @PostMapping()
-    public ResponseEntity post(FuncionarioDTO dto) {
+    public ResponseEntity post(@RequestBody FuncionarioDTO dto) {
         try {
             Funcionario funcionario = converter(dto);
             funcionario = service.salvar(funcionario);
@@ -50,7 +53,7 @@ public class FuncionarioController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, FuncionarioDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id,@RequestBody FuncionarioDTO dto) {
         if (!service.getFuncionarioById(id).isPresent()) {
             return new ResponseEntity("Funcionário não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -80,7 +83,15 @@ public class FuncionarioController {
 
     public Funcionario converter(FuncionarioDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(dto, Funcionario.class);
-
+        Funcionario funcionario = modelMapper.map(dto, Funcionario.class);
+        if (dto.getIdCargo() != null) {
+            Optional<Cargo> cargo = cargoService.getCargoById(dto.getIdCargo());
+            if (!cargo.isPresent()) {
+                funcionario.setCargo(null);
+            } else {
+                funcionario.setCargo(cargo.get());
+            }
+        }
+        return funcionario;
     }
 }

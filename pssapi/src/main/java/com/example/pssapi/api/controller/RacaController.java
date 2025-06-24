@@ -38,7 +38,7 @@ public class RacaController {
         return ResponseEntity.ok(raca.map(RacaDTO::create));
     }
     @PostMapping()
-    public ResponseEntity post(RacaDTO dto) {
+    public ResponseEntity post(@RequestBody RacaDTO dto) {
         try {
             Raca raca = converter(dto);
             raca = service.salvar(raca);
@@ -49,7 +49,7 @@ public class RacaController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, RacaDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody RacaDTO dto) {
         if (!service.getRacaById(id).isPresent()) {
             return new ResponseEntity("Raça não encontrada", HttpStatus.NOT_FOUND);
         }

@@ -42,9 +42,6 @@ public class RacaService {
         }
 
         public void validar(Raca raca) {
-            if (raca.getId() == null || raca.getId() == 0) {
-                throw new RegraNegocioException("Raca inválido");
-            }
             if (raca.getNome() == null || raca.getNome().trim().equals("")) {
                 throw new RegraNegocioException("Raca inválido");
             }

@@ -40,10 +40,7 @@ public class SetorService {
         }
 
         public void validar(Setor Setor) {
-            if (Setor.getId() == null || Setor.getId() == 0) {
-                throw new RegraNegocioException("Setor inválido");
-            }
-            if (Setor.getNomeSetor() == null || Setor.getNomeSetor().trim().equals("")) {
+            if (Setor.getNome() == null || Setor.getNome().trim().equals("")) {
                 throw new RegraNegocioException("Setor inválido");
             }
         }

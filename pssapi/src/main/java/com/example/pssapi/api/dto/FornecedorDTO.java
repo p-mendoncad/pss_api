@@ -16,7 +16,15 @@ public class FornecedorDTO {
     private String cnpj;
     private String email;
     private String telefone;
+    private String numero;
+    private String logradouro;
+    private String complemento;
+    private String bairro;
+    private String cidade;
+    private String estado;
     private String cep;
+    private String dataCad;
+
     
     public static FornecedorDTO create(Fornecedor fornecedor){
         ModelMapper modelMapper = new ModelMapper();

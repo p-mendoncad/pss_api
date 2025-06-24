@@ -17,6 +17,13 @@ public class ClienteDTO {
     private String telefone;
     private String cep;
     private String email;
+    private String dataNasc;
+    private String logradouro;
+    private String complemento;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String numero;
 
     public static ClienteDTO create(Cliente cliente){
         ModelMapper modelMapper = new ModelMapper();

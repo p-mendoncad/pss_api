@@ -44,7 +44,7 @@ public class SetorController {
     }
 
     @PostMapping()
-    public ResponseEntity post(SetorDTO dto) {
+    public ResponseEntity post(@RequestBody SetorDTO dto) {
         try {
             Setor setor = converter(dto);
             setor = service.salvar(setor);
@@ -55,7 +55,7 @@ public class SetorController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, SetorDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id,@RequestBody SetorDTO dto) {
         if (!service.getSetorById(id).isPresent()) {
             return new ResponseEntity("Setor não encontrado", HttpStatus.NOT_FOUND);
         }

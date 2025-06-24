@@ -3,8 +3,11 @@ package com.example.pssapi.api.controller;
 
 import com.example.pssapi.api.dto.VendaDTO;
 import com.example.pssapi.exception.RegraNegocioException;
+import com.example.pssapi.model.entity.Cliente;
+import com.example.pssapi.model.entity.Raca;
 import com.example.pssapi.model.entity.Venda;
 import com.example.pssapi.service.VendaService;
+import com.example.pssapi.service.ClienteService;
 
 import org.modelmapper.ModelMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 public class VendaController {
 
     private final VendaService service;
+    private final ClienteService clienteService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -40,7 +44,7 @@ public class VendaController {
     }
 
     @PostMapping()
-    public ResponseEntity post(VendaDTO dto) {
+    public ResponseEntity post(@RequestBody VendaDTO dto) {
         try {
             Venda venda = converter(dto);
             venda = service.salvar(venda);
@@ -51,7 +55,7 @@ public class VendaController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, VendaDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody VendaDTO dto) {
         if (!service.getVendaById(id).isPresent()) {
             return new ResponseEntity("Venda não encontrada", HttpStatus.NOT_FOUND);
         }
@@ -81,6 +85,13 @@ public class VendaController {
 
     public Venda converter(VendaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(dto, Venda.class);
+        Venda venda = modelMapper.map(dto, Venda.class);
+
+        if (dto.getIdCliente() != null) {
+            Optional<Cliente> cliente = clienteService.getClienteById(dto.getIdCliente());
+            venda.setCliente(cliente.orElse(null));
+        }
+
+        return venda;
     }
 }

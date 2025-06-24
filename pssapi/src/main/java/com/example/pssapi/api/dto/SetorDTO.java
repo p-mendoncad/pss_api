@@ -12,7 +12,7 @@ import org.modelmapper.ModelMapper;
 
 public class SetorDTO {
     private Long id;
-    private String nomeSetor;
+    private String nome;
 
     public static SetorDTO create(Setor setor){
         ModelMapper modelMapper = new ModelMapper();

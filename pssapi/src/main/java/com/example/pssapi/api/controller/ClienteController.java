@@ -44,7 +44,7 @@ public class ClienteController {
     }
 
     @PostMapping()
-    public ResponseEntity post(ClienteDTO dto) {
+    public ResponseEntity post(@RequestBody ClienteDTO dto) {
         try {
             Cliente cliente = converter(dto);
             cliente = service.salvar(cliente);
@@ -55,7 +55,7 @@ public class ClienteController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, ClienteDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id,@RequestBody ClienteDTO dto) {
         if (!service.getClienteById(id).isPresent()) {
             return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
         }

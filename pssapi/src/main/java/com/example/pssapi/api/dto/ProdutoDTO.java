@@ -13,11 +13,19 @@ import org.modelmapper.ModelMapper;
 
 public class ProdutoDTO {
     private Long id;
-    private String nome;
     private String quantidade;
+    private String nome;
     private String quantidadeMin;
     private String descricao;
+    private String validade;
+    private String vencimento;
+    private String lote;
+    private String perecibilidade;
+    private String dataEntrada;
+    private String codBarras;
     private String precoVenda;
+    private String unidadeMedida;
+    private String precoCompra;
     private Long idSetor;
     private Long idFornecedor;
 

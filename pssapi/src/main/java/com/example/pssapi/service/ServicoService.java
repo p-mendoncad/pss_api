@@ -40,9 +40,6 @@ public class ServicoService {
         }
 
         public void validar(Servico servico) {
-            if (servico.getId() == null || servico.getId() == 0) {
-                throw new RegraNegocioException("Servico inválido");
-            }
             if (servico.getNome() == null || servico.getNome().trim().equals("")) {
                 throw new RegraNegocioException("Servico inválido");
             }

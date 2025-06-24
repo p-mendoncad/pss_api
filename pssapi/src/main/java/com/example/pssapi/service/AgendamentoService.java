@@ -43,9 +43,6 @@ public class AgendamentoService {
     }
 
     public void validar(Agendamento agendamento) {
-        if (agendamento.getId() == null || agendamento.getId() == 0) {
-            throw new RegraNegocioException("Agendamento inválida");
-        }
         if (agendamento.getServico() == null || agendamento.getServico().getId() == null || agendamento.getServico().getId() == 0) {
             throw new RegraNegocioException("Serviço inválido");
         }

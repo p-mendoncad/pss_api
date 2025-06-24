@@ -41,9 +41,6 @@ public class FornecedorService {
         }
 
         public void validar(Fornecedor Fornecedor) {
-            if (Fornecedor.getId() == null || Fornecedor.getId() == 0) {
-                throw new RegraNegocioException("Fornecedor inválido");
-            }
             if (Fornecedor.getNome() == null || Fornecedor.getNome().trim().equals("")) {
                 throw new RegraNegocioException("Fornecedor inválido");
             }

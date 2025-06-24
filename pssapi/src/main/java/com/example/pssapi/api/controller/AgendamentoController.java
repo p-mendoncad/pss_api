@@ -2,7 +2,9 @@ package com.example.pssapi.api.controller;
 
 import com.example.pssapi.api.dto.PetDTO;
 import com.example.pssapi.exception.RegraNegocioException;
+import com.example.pssapi.model.entity.Funcionario;
 import com.example.pssapi.service.AgendamentoService;
+import com.example.pssapi.service.FuncionarioService;
 import com.example.pssapi.service.PetService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class AgendamentoController {
     private final AgendamentoService service;
     private final PetService petService;
     private final ServicoService servicoService;
+    private final FuncionarioService funcionarioService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -47,7 +50,7 @@ public class AgendamentoController {
     }
 
     @PostMapping()
-    public ResponseEntity post(AgendamentoDTO dto) {
+    public ResponseEntity post(@RequestBody AgendamentoDTO dto) {
         try {
             Agendamento agendamento = converter(dto);
             agendamento = service.salvar(agendamento);
@@ -59,7 +62,7 @@ public class AgendamentoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, AgendamentoDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id,@RequestBody AgendamentoDTO dto) {
         if (!service.getAgendamentoById(id).isPresent()) {
             return new ResponseEntity("Agendamento não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -104,6 +107,14 @@ public class AgendamentoController {
                 Agendamento.setPet(null);
             } else {
                 Agendamento.setPet(pet.get());
+            }
+        }
+        if (dto.getIdFuncionario() != null) {
+            Optional<Funcionario> funcionario = funcionarioService.getFuncionarioById(dto.getIdFuncionario());
+            if (!funcionario.isPresent()) {
+                Agendamento.setFuncionario(null);
+            } else {
+                Agendamento.setFuncionario(funcionario.get());
             }
         }
         return Agendamento;

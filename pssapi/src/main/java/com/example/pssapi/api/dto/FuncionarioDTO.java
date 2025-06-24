@@ -16,8 +16,15 @@ public class FuncionarioDTO {
     private String nome;
     private String cpf;
     private String telefone;
+    private String dataNasc;
     private String email;
     private String cep;
+    private String logradouro;
+    private String numero;
+    private String complemento;
+    private String bairro;
+    private String cidade;
+    private String estado;
     private Long idCargo;
     
     public static FuncionarioDTO create(Funcionario funcionario){

@@ -42,7 +42,7 @@ public class ServicoController {
     }
 
     @PostMapping()
-    public ResponseEntity post(ServicoDTO dto) {
+    public ResponseEntity post(@RequestBody ServicoDTO dto) {
         try {
             Servico servico = converter(dto);
             servico = service.salvar(servico);
@@ -53,7 +53,7 @@ public class ServicoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, ServicoDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id,@RequestBody ServicoDTO dto) {
         if (!service.getServicoById(id).isPresent()) {
             return new ResponseEntity("Serviço não encontrado", HttpStatus.NOT_FOUND);
         }
