@@ -53,7 +53,8 @@ public class AgendamentoController {
             agendamento = service.salvar(agendamento);
             return new ResponseEntity(agendamento, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            Agendamento agendamento = converter(dto);
+            return ResponseEntity.badRequest().body(e.getMessage() + agendamento);
         }
     }
 
@@ -67,6 +68,20 @@ public class AgendamentoController {
             agendamento.setId(id);
             service.salvar(agendamento);
             return ResponseEntity.ok(agendamento);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Agendamento> agendamento = service.getAgendamentoById(id);
+        if (!agendamento.isPresent()) {
+            return new ResponseEntity("Agendamento não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            service.excluir(agendamento.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

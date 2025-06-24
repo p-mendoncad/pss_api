@@ -3,9 +3,13 @@ package com.example.pssapi.api.controller;
 
 import com.example.pssapi.api.dto.PetDTO;
 import com.example.pssapi.exception.RegraNegocioException;
+import com.example.pssapi.model.entity.Cliente;
 import com.example.pssapi.model.entity.Pet;
+import com.example.pssapi.model.entity.Raca;
 import lombok.RequiredArgsConstructor;
 import com.example.pssapi.service.PetService;
+import com.example.pssapi.service.RacaService;
+import com.example.pssapi.service.ClienteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,8 @@ import java.util.stream.Collectors;
 public class PetController {
 
     private final PetService service;
+    private final RacaService racaService;
+    private final ClienteService clienteService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -39,7 +45,7 @@ public class PetController {
     }
 
     @PostMapping()
-    public ResponseEntity post( PetDTO dto) {
+    public ResponseEntity post(@RequestBody PetDTO dto) {
         try {
             Pet pet = converter(dto);
             pet = service.salvar(pet);
@@ -64,8 +70,35 @@ public class PetController {
         }
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Pet> pet = service.getPetById(id);
+        if (!pet.isPresent()) {
+            return new ResponseEntity("Pet não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            service.excluir(pet.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     public Pet converter(PetDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(dto, Pet.class);
+        Pet pet = modelMapper.map(dto, Pet.class);
+
+        if (dto.getIdRaca() != null) {
+            Optional<Raca> raca = racaService.getRacaById(dto.getIdRaca());
+            pet.setRaca(raca.orElse(null)); // Aqui está a correção
+        }
+
+        if (dto.getIdCliente() != null) {
+            Optional<Cliente> cliente = clienteService.getClienteById(dto.getIdCliente());
+            pet.setCliente(cliente.orElse(null)); // E aqui também
+        }
+
+        return pet;
     }
+
 }

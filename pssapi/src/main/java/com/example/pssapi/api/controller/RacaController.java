@@ -63,6 +63,20 @@ public class RacaController {
         }
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Raca> raca = service.getRacaById(id);
+        if (!raca.isPresent()) {
+            return new ResponseEntity("Raça não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            service.excluir(raca.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     public Raca converter(RacaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(dto, Raca.class);
