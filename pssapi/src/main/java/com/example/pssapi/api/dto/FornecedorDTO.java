@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class FornecedorDTO {
     private String cidade;
     private String estado;
     private String cep;
-    private String dataCad;
+    private LocalDate dataCad;
 
     
     public static FornecedorDTO create(Fornecedor fornecedor){

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.example.pssapi.model.entity.Fornecedor;
 import com.example.pssapi.model.repository.FornecedorRepository;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,7 @@ public class FornecedorService {
 
         @Transactional
         public Fornecedor salvar(Fornecedor Fornecedor) {
+            Fornecedor.setDataCad(LocalDate.now());
             validar(Fornecedor);
             return repository.save(Fornecedor);
         }
@@ -42,7 +44,11 @@ public class FornecedorService {
 
         public void validar(Fornecedor Fornecedor) {
             if (Fornecedor.getNome() == null || Fornecedor.getNome().trim().equals("")) {
-                throw new RegraNegocioException("Fornecedor inválido");
+                throw new RegraNegocioException("Fornecedor inválido: É necessário possuir um nome.");
+            }
+            if ((Fornecedor.getEmail() == null || Fornecedor.getEmail().trim().equals(""))
+                    && (Fornecedor.getTelefone() == null || Fornecedor.getTelefone().trim().equals(""))) {
+                throw new RegraNegocioException("Fornecedor inválido: É necessário possuir pelo menos uma forma de contato.");
             }
         }
 

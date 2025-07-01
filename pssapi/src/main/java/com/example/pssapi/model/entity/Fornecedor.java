@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 //import org.hibernate.annotations.IdGeneratorType;
 
 @Data
@@ -29,6 +31,6 @@ public class Fornecedor {
     private String cidade;
     private String estado;
     private String cep;
-    private String dataCad;
+    private LocalDate dataCad;
 
 }
