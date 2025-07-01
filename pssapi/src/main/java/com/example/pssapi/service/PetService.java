@@ -42,7 +42,10 @@ public class PetService {
 
     public void validar(Pet Pet) {
         if (Pet.getNome() == null || Pet.getNome().trim().equals("")) {
-            throw new RegraNegocioException("Pet inválido");
+            throw new RegraNegocioException("Pet inválido: É necessário possuir um nome.");
+        }
+        if (Pet.getCliente() == null) {
+            throw new RegraNegocioException("Pet inválido: É necessário estar associado a algum cliente");
         }
     }
 }
