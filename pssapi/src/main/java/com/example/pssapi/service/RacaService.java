@@ -43,7 +43,7 @@ public class RacaService {
 
         public void validar(Raca raca) {
             if (raca.getNome() == null || raca.getNome().trim().equals("")) {
-                throw new RegraNegocioException("Raca inválido");
+                throw new RegraNegocioException("Raça inválida: A raça deve possuir um nome.");
             }
         }
     }
