@@ -81,5 +81,4 @@ public class FuncionarioService {
             throw new RegraNegocioException("Funcionário inválido: É necessário informar o cargo.");
         }
     }
-
 }

@@ -53,8 +53,7 @@ public class ProdutoController {
             produto = service.salvar(produto);
             return new ResponseEntity(produto, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
-            Produto produto = converter(dto);
-            return ResponseEntity.badRequest().body(e.getMessage() + produto);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

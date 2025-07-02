@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,15 +19,13 @@ public class ProdutoDTO {
     private String nome;
     private String quantidadeMin;
     private String descricao;
-    private String validade;
     private String vencimento;
     private String lote;
-    private String perecibilidade;
     private String dataEntrada;
     private String codBarras;
-    private String precoVenda;
+    private BigDecimal precoVenda;
     private String unidadeMedida;
-    private String precoCompra;
+    private BigDecimal precoCompra;
     private Long idSetor;
     private Long idFornecedor;
 
