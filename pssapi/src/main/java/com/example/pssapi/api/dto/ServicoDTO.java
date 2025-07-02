@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,7 +16,7 @@ public class ServicoDTO {
     private Long id;
     private Long idCargo;
     private String Nome;
-    private float preco;
+    private BigDecimal preco;
     private int duracaoMinutos;
 
     public static ServicoDTO create(Servico servico){
