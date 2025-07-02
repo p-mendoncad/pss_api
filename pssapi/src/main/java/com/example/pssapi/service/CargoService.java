@@ -45,7 +45,10 @@ public class CargoService {
 
     public void validar(Cargo Cargo) {
         if (Cargo.getNome() == null || Cargo.getNome().trim().equals("")) {
-            throw new RegraNegocioException("Cargo inválido");
+            throw new RegraNegocioException("Cargo inválido: Cargo precisa ter um nome definido.");
+        }
+        if (Cargo.getNome().trim().equals("") || Cargo.getSalario() == 0) {
+            throw new RegraNegocioException("Cargo inválido: Cargo precisa ter um salário definido.");
         }
     }
 }
