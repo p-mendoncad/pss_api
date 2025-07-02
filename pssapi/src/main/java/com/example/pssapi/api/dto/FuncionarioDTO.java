@@ -17,7 +17,6 @@ public class FuncionarioDTO {
     private String cpf;
     private String telefone;
     private String dataNasc;
-    private String email;
     private String cep;
     private String logradouro;
     private String numero;

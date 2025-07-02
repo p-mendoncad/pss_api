@@ -40,9 +40,46 @@ public class FuncionarioService {
         repository.delete(Funcionario);
     }
 
-    public void validar(Funcionario Funcionario) {
-        if (Funcionario.getNome() == null || Funcionario.getNome().trim().equals("")) {
-            throw new RegraNegocioException("Funcionário inválido");
+    public void validar(Funcionario funcionario) {
+        if (funcionario.getNome() == null || funcionario.getNome().trim().isEmpty()) {
+            throw new RegraNegocioException("Funcionário inválido: É necessário informar um nome.");
+        }
+
+        if (funcionario.getCpf() == null || funcionario.getCpf().trim().isEmpty()) {
+            throw new RegraNegocioException("Funcionário inválido: É necessário informar um CPF.");
+        }
+
+        if (funcionario.getDataNasc() == null || funcionario.getDataNasc().trim().isEmpty()) {
+            throw new RegraNegocioException("Funcionário inválido: É necessário informar a data de nascimento.");
+        }
+
+        if (funcionario.getCep() == null || funcionario.getCep().trim().isEmpty()) {
+            throw new RegraNegocioException("Funcionário inválido: É necessário informar o CEP.");
+        }
+
+        if (funcionario.getLogradouro() == null || funcionario.getLogradouro().trim().isEmpty()) {
+            throw new RegraNegocioException("Funcionário inválido: É necessário informar o logradouro.");
+        }
+
+        if (funcionario.getNumero() == null || funcionario.getNumero().trim().isEmpty()) {
+            throw new RegraNegocioException("Funcionário inválido: É necessário informar o número.");
+        }
+
+        if (funcionario.getBairro() == null || funcionario.getBairro().trim().isEmpty()) {
+            throw new RegraNegocioException("Funcionário inválido: É necessário informar o bairro.");
+        }
+
+        if (funcionario.getCidade() == null || funcionario.getCidade().trim().isEmpty()) {
+            throw new RegraNegocioException("Funcionário inválido: É necessário informar a cidade.");
+        }
+
+        if (funcionario.getEstado() == null || funcionario.getEstado().trim().isEmpty()) {
+            throw new RegraNegocioException("Funcionário inválido: É necessário informar o estado.");
+        }
+
+        if (funcionario.getCargo() == null) {
+            throw new RegraNegocioException("Funcionário inválido: É necessário informar o cargo.");
         }
     }
+
 }
