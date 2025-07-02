@@ -44,10 +44,16 @@ public class AgendamentoService {
 
     public void validar(Agendamento agendamento) {
         if (agendamento.getServico() == null || agendamento.getServico().getId() == null || agendamento.getServico().getId() == 0) {
-            throw new RegraNegocioException("Serviço inválido");
+            throw new RegraNegocioException("Agendamento inválido: Informe um serviço existente ");
         }
         if (agendamento.getPet() == null || agendamento.getPet().getId() == null || agendamento.getPet().getId() == 0) {
-            throw new RegraNegocioException("Pet Inexistente");
+            throw new RegraNegocioException("Agendamento inválido: Pet Inexistente ");
+        }
+        if (agendamento.getData() == null || agendamento.getData().trim() == "" || agendamento.getData().equals("0")) {
+            throw new RegraNegocioException("Agendamento inválido: É necessário informar a data. ");
+        }
+        if (agendamento.getHorario() == null || agendamento.getHorario().trim() == ""|| agendamento.getHorario().equals("0")) {
+            throw new RegraNegocioException("Agendamento inválido: É necessário informar o horário. ");
         }
     }
 }

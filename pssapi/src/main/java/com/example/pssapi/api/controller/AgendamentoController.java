@@ -56,8 +56,7 @@ public class AgendamentoController {
             agendamento = service.salvar(agendamento);
             return new ResponseEntity(agendamento, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
-            Agendamento agendamento = converter(dto);
-            return ResponseEntity.badRequest().body(e.getMessage() + agendamento);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
