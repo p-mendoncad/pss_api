@@ -42,7 +42,17 @@ public class ClienteService {
 
         public void validar(Cliente Cliente) {
             if (Cliente.getNome() == null || Cliente.getNome().trim().equals("")) {
-                throw new RegraNegocioException("Cliente inválido");
+                throw new RegraNegocioException("Cliente inválido: É necessário informar um nome. ");
+            }
+            if (Cliente.getCpf() == null || Cliente.getCpf().trim().equals("")) {
+                throw new RegraNegocioException("Cliente inválido: É necessário informar um CPF.");
+            }
+            if ((Cliente.getEmail() == null || Cliente.getEmail().trim().equals(""))
+                    && (Cliente.getTelefone() == null || Cliente.getTelefone().trim().equals(""))) {
+                throw new RegraNegocioException("Cliente inválido: É necessário possuir pelo menos uma forma de contato.");
+            }
+            if (Cliente.getDataNasc() == null || Cliente.getDataNasc().trim().equals("")) {
+                throw new RegraNegocioException("Cliente inválido: É necessário informar a data de nascimento.");
             }
         }
     }
