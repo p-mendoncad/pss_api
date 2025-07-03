@@ -90,12 +90,12 @@ public class PetController {
 
         if (dto.getIdRaca() != null) {
             Optional<Raca> raca = racaService.getRacaById(dto.getIdRaca());
-            pet.setRaca(raca.orElse(null)); // Aqui está a correção
+            pet.setRaca(raca.orElse(null));
         }
 
         if (dto.getIdCliente() != null) {
             Optional<Cliente> cliente = clienteService.getClienteById(dto.getIdCliente());
-            pet.setCliente(cliente.orElse(null)); // E aqui também
+            pet.setCliente(cliente.orElse(null));
         }
 
         return pet;
