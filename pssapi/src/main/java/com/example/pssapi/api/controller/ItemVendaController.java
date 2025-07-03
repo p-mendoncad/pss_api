@@ -54,7 +54,7 @@ public class ItemVendaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> put(@PathVariable("id") Long id, @RequestBody ItemVendaDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ItemVendaDTO dto) {
         if (!service.getItemVendaById()) {
             return new ResponseEntity<("ItemVenda não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -83,23 +83,21 @@ public class ItemVendaController {
 
     private ItemVenda converter(ItemVendaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
-        ItemVenda item = modelMapper.map(dto, ItemVenda.class);        if (dto.getIdVenda() != null) {
+        ItemVenda item = modelMapper.map(dto, ItemVenda.class);
+        if (dto.getIdVenda() != null) {
             Optional<Venda> venda = vendaService.getVendaById(dto.getIdVenda());
-            item.setVenda(venda.orElseThrow(() ->
-                    new RegraNegocioException("Venda não encontrada para o id: " + dto.getIdVenda())));
-        } else {
-            throw new RegraNegocioException("Id da Venda é obrigatório.");
+            if (!venda.isPresent()) {
+                venda.setVenda(null);
+            } else {
+                venda.setVenda(venda.get());
+            }
         }
 
-        if (dto.getIdProduto() != null) {
+        if (dto.getIdItemVenda() != null) {
             Optional<Produto> produto = produtoService.getProdutoById(dto.getIdProduto());
-            if (produto.isEmpty()) {
-                throw new RegraNegocioException("Produto não encontrado para o id: " + dto.getIdProduto());
+            if (!produto.isPresent()) {
             }
-            item.setIdProduto(dto.getIdProduto());
-        } else {
-            throw new RegraNegocioException("Id do Produto é obrigatório.");
-        }
+
 
         return item;
     }
