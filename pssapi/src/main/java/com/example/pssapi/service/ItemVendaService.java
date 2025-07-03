@@ -30,7 +30,7 @@ public class ItemVendaService {
     @Transactional
     public ItemVenda save(ItemVenda itemVenda) {
         validar(itemVenda);
-        return repository.salvar(itemVenda);
+        return repository.save(itemVenda);
     }
 
     @Transactional

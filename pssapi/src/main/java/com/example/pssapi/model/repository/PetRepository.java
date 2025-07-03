@@ -1,6 +1,5 @@
 package com.example.pssapi.model.repository;
 
-import com.example.pssapi.model.entity.Funcionario;
 import com.example.pssapi.model.entity.Pet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
