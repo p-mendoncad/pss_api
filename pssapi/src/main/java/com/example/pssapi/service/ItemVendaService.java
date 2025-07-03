@@ -23,18 +23,18 @@ public class ItemVendaService {
         return repository.findAll();
     }
 
-    public Optional<ItemVenda> getById(Long id) {
+    public Optional<ItemVenda> getItemVendaById(Long id) {
         return repository.findById(id);
     }
 
     @Transactional
-    public ItemVenda save(ItemVenda itemVenda) {
+    public ItemVenda salvar(ItemVenda itemVenda) {
         validar(itemVenda);
         return repository.save(itemVenda);
     }
 
     @Transactional
-    public void delete(ItemVenda itemVenda) {
+    public void excluir(ItemVenda itemVenda) {
         Objects.requireNonNull(itemVenda.getId(), "ID do ItemVenda não pode ser nulo");
         repository.delete(itemVenda);
     }
@@ -43,7 +43,7 @@ public class ItemVendaService {
         if (itemVenda.getVenda() == null || itemVenda.getVenda().getId() == null || itemVenda.getVenda().getId() == 0) {
             throw new RegraNegocioException("ItemVenda inválido: Venda deve ser informada.");
         }
-        if (itemVenda.getIdProduto() == null || itemVenda.getIdProduto() == 0) {
+        if (itemVenda.getProduto() == null || itemVenda.getProduto().getId() == 0) {
             throw new RegraNegocioException("ItemVenda inválido: Id do produto deve ser informado.");
         }
         if (itemVenda.getQuantidade() == null || itemVenda.getQuantidade() <= 0) {

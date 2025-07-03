@@ -38,8 +38,8 @@ public class ItemVendaController {
 
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable("id") Long id) {
-        Optional<ItemVenda> item = service.getItemVendaById();
-        return ResponseEntity.ok(item.stream().map(ItemVendaDTO::create).collect(Collectors.toList()));
+        Optional<ItemVenda> item = service.getItemVendaById(id);
+        return ResponseEntity.ok(item.map(ItemVendaDTO::create));
     }
 
     @PostMapping
@@ -55,8 +55,8 @@ public class ItemVendaController {
 
     @PutMapping("/{id}")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ItemVendaDTO dto) {
-        if (!service.getItemVendaById()) {
-            return new ResponseEntity<("ItemVenda não encontrado", HttpStatus.NOT_FOUND);
+        if (!service.getItemVendaById(id).isPresent()) {
+            return new ResponseEntity("ItemVenda não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             ItemVenda item = converter(dto);
@@ -74,7 +74,7 @@ public class ItemVendaController {
             return new ResponseEntity<>("ItemVenda não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
-            service.delete(item.get());
+            service.excluir(item.get());
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -87,17 +87,17 @@ public class ItemVendaController {
         if (dto.getIdVenda() != null) {
             Optional<Venda> venda = vendaService.getVendaById(dto.getIdVenda());
             if (!venda.isPresent()) {
-                venda.setVenda(null);
+                item.setVenda(null);
             } else {
-                venda.setVenda(venda.get());
+                item.setVenda(venda.get());
             }
         }
 
-        if (dto.getIdItemVenda() != null) {
+        if (dto.getIdProduto() != null) {
             Optional<Produto> produto = produtoService.getProdutoById(dto.getIdProduto());
             if (!produto.isPresent()) {
             }
-
+        }
 
         return item;
     }
