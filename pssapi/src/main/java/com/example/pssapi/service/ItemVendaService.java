@@ -6,6 +6,8 @@ import com.example.pssapi.model.repository.ItemVendaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,6 +31,9 @@ public class ItemVendaService {
 
     @Transactional
     public ItemVenda salvar(ItemVenda itemVenda) {
+        BigDecimal quantidade = new BigDecimal(itemVenda.getQuantidade());
+        BigDecimal preco = itemVenda.getProduto().getPrecoVenda();
+        itemVenda.setSubtotal(quantidade.multiply(preco));
         validar(itemVenda);
         return repository.save(itemVenda);
     }
@@ -40,9 +45,6 @@ public class ItemVendaService {
     }
 
     public void validar(ItemVenda itemVenda) {
-        if (itemVenda.getVenda() == null || itemVenda.getVenda().getId() == null || itemVenda.getVenda().getId() == 0) {
-            throw new RegraNegocioException("ItemVenda inválido: Venda deve ser informada.");
-        }
         if (itemVenda.getProduto() == null || itemVenda.getProduto().getId() == 0) {
             throw new RegraNegocioException("ItemVenda inválido: Id do produto deve ser informado.");
         }

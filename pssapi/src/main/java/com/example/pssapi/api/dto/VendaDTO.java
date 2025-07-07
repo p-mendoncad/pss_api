@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 public class VendaDTO {
     private Long id;
     private Long idCliente;
+    private Long idItemVenda;
 
     public static VendaDTO create(Venda venda){
         ModelMapper modelMapper = new ModelMapper();

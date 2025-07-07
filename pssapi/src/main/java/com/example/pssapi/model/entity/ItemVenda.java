@@ -16,8 +16,6 @@ public class ItemVenda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Venda venda;
 
     @ManyToOne
     private Produto produto;

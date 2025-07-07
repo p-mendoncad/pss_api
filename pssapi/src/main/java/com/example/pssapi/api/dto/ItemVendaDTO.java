@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class ItemVendaDTO {
     private Long id;
-    private Long idVenda;
     private Long idProduto;
     private Integer quantidade;
     private BigDecimal subtotal;

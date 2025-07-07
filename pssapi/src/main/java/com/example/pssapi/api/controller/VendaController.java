@@ -4,8 +4,10 @@ package com.example.pssapi.api.controller;
 import com.example.pssapi.api.dto.VendaDTO;
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Cliente;
+import com.example.pssapi.model.entity.ItemVenda;
 import com.example.pssapi.model.entity.Raca;
 import com.example.pssapi.model.entity.Venda;
+import com.example.pssapi.service.ItemVendaService;
 import com.example.pssapi.service.VendaService;
 import com.example.pssapi.service.ClienteService;
 
@@ -27,6 +29,7 @@ public class VendaController {
 
     private final VendaService service;
     private final ClienteService clienteService;
+    private final ItemVendaService itemVendaService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -90,6 +93,10 @@ public class VendaController {
         if (dto.getIdCliente() != null) {
             Optional<Cliente> cliente = clienteService.getClienteById(dto.getIdCliente());
             venda.setCliente(cliente.orElse(null));
+        }
+        if (dto.getIdItemVenda() != null) {
+            Optional<ItemVenda> itemVenda = itemVendaService.getItemVendaById(dto.getIdItemVenda());
+            venda.setItemVenda(itemVenda.orElse(null));
         }
 
         return venda;

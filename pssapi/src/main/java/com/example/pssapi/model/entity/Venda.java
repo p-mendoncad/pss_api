@@ -16,7 +16,8 @@ public class Venda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // List<Produto> produtos;
+    @ManyToOne
+    private ItemVenda itemVenda;
     @ManyToOne
     private Cliente cliente;
 }

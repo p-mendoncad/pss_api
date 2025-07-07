@@ -84,18 +84,13 @@ public class ItemVendaController {
     private ItemVenda converter(ItemVendaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         ItemVenda item = modelMapper.map(dto, ItemVenda.class);
-        if (dto.getIdVenda() != null) {
-            Optional<Venda> venda = vendaService.getVendaById(dto.getIdVenda());
-            if (!venda.isPresent()) {
-                item.setVenda(null);
-            } else {
-                item.setVenda(venda.get());
-            }
-        }
 
         if (dto.getIdProduto() != null) {
             Optional<Produto> produto = produtoService.getProdutoById(dto.getIdProduto());
             if (!produto.isPresent()) {
+                item.setProduto(null);
+            } else {
+                item.setProduto(produto.get());
             }
         }
 

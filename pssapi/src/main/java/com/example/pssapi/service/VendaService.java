@@ -41,7 +41,10 @@ public class VendaService {
 
         public void validar(Venda venda) {
             if (venda.getCliente() == null || venda.getCliente().getId() == null || venda.getCliente().getId() == 0) {
-                throw new RegraNegocioException("Venda inválido");
+                throw new RegraNegocioException("Venda inválida: É necessário possuir um cliente.");
+            }
+            if (venda.getItemVenda() == null || venda.getItemVenda().getId() == null || venda.getItemVenda().getId() == 0) {
+                throw new RegraNegocioException("Venda inválida: É necessario possuir um ou mais produtos.");
             }
         }
     }
