@@ -9,6 +9,10 @@ import com.example.pssapi.service.FornecedorService;
 import com.example.pssapi.service.ProdutoService;
 import com.example.pssapi.service.SetorService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -24,6 +28,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/produtos")
 @RequiredArgsConstructor
+@Api("API de Produto")
 
 public class ProdutoController {
 
@@ -38,6 +43,11 @@ public class ProdutoController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de um Produto")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Produto encontrado"),
+            @ApiResponse(code = 404, message = "Produto não encontrado")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Produto> produto = service.getProdutoById(id);
         if (!produto.isPresent()) {
@@ -47,6 +57,11 @@ public class ProdutoController {
     }
 
     @PostMapping()
+    @ApiOperation("Salva um novo Produto")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Produto salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar um Produto")
+    })
     public ResponseEntity post(@RequestBody ProdutoDTO dto) {
         try {
             Produto produto = converter(dto);

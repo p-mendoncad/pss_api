@@ -6,6 +6,10 @@ import com.example.pssapi.model.entity.Raca;
 
 import com.example.pssapi.service.RacaService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -19,6 +23,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/racas")
 @RequiredArgsConstructor
+@Api("API de Raça")
+
 
 public class RacaController {
 
@@ -30,6 +36,11 @@ public class RacaController {
         return ResponseEntity.ok(racas.stream().map(RacaDTO::create).collect(Collectors.toList()));
     }
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de uma Raça")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Raça encontrada"),
+            @ApiResponse(code = 404, message = "Raça não encontrada")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Raca> raca = service.getRacaById(id);
         if (!raca.isPresent()) {
@@ -38,6 +49,11 @@ public class RacaController {
         return ResponseEntity.ok(raca.map(RacaDTO::create));
     }
     @PostMapping()
+    @ApiOperation("Salva uma nova Raça ")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Raça salva com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar uma Raça")
+    })
     public ResponseEntity post(@RequestBody RacaDTO dto) {
         try {
             Raca raca = converter(dto);

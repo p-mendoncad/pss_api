@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/fornecedores")
 @RequiredArgsConstructor
+@Api("API de Fornecedor")
+
 
 public class FornecedorController {
 
@@ -31,6 +33,11 @@ public class FornecedorController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de um Fornecedor")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Fornecedor encontrado"),
+            @ApiResponse(code = 404, message = "Fornecedor não encontrado")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Fornecedor> fornecedor = service.getFornecedorById(id);
         if (!fornecedor.isPresent()) {
@@ -40,6 +47,11 @@ public class FornecedorController {
     }
 
     @PostMapping()
+    @ApiOperation("Salva um novo Fornecedor")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Fornecedor salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar o Fornecedor")
+    })
     public ResponseEntity post(@RequestBody FornecedorDTO dto) {
         try {
             Fornecedor fornecedor = converter(dto);

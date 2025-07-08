@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/funcionarios")
 @RequiredArgsConstructor
+@Api("API de Funcionario")
+
 
 public class FuncionarioController {
 
@@ -33,6 +35,11 @@ public class FuncionarioController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de um Funcionario")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Funcionario encontrado"),
+            @ApiResponse(code = 404, message = "Funcionario não encontrado")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Funcionario> funcionario = service.getFuncionarioById(id);
         if (!funcionario.isPresent()) {
@@ -42,6 +49,11 @@ public class FuncionarioController {
     }
 
     @PostMapping()
+    @ApiOperation("Salva um novo Funcionario")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Funcionario salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar o Funcionario")
+    })
     public ResponseEntity post(@RequestBody FuncionarioDTO dto) {
         try {
             Funcionario funcionario = converter(dto);

@@ -6,6 +6,10 @@ import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Cliente;
 import com.example.pssapi.model.entity.Pet;
 import com.example.pssapi.model.entity.Raca;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import com.example.pssapi.service.PetService;
 import com.example.pssapi.service.RacaService;
@@ -23,6 +27,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/pets")
 @RequiredArgsConstructor
+@Api("API de Pet")
+
 
 public class PetController {
 
@@ -36,6 +42,11 @@ public class PetController {
         return ResponseEntity.ok(pets.stream().map(PetDTO::create).collect(Collectors.toList()));
     }
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de um Pet")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Pet não encontrado"),
+            @ApiResponse(code = 404, message = "Pet não encontrado")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Pet> pet = service.getPetById(id);
         if (!pet.isPresent()) {
@@ -45,6 +56,11 @@ public class PetController {
     }
 
     @PostMapping()
+    @ApiOperation("Salva um novo Pet")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Pet salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar um Pet")
+    })
     public ResponseEntity post(@RequestBody PetDTO dto) {
         try {
             Pet pet = converter(dto);

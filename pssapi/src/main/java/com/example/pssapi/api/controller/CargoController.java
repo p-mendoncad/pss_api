@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/cargos")
 @RequiredArgsConstructor
+@Api("API de Cargos")
+
 
 public class CargoController {
 
@@ -33,6 +35,11 @@ public class CargoController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de um Cargo")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Cargo encontrado"),
+            @ApiResponse(code = 404, message = "Cargo não encontrado")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Cargo> cargo = service.getCargoById(id);
         if (!cargo.isPresent()) {
@@ -42,6 +49,11 @@ public class CargoController {
     }
 
     @PostMapping()
+    @ApiOperation("Salva um novo Cargo")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Cargo salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar o Cargo")
+    })
     public ResponseEntity post(@RequestBody CargoDTO dto) {
         try {
             Cargo cargo = converter(dto);

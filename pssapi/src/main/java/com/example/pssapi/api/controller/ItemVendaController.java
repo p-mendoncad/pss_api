@@ -10,6 +10,10 @@ import com.example.pssapi.model.entity.Venda;
 import com.example.pssapi.service.ItemVendaService;
 import com.example.pssapi.service.ProdutoService;
 import com.example.pssapi.service.VendaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -22,6 +26,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/itemVendas")
 @RequiredArgsConstructor
+@Api("API de Itens de Venda")
+
 
 public class ItemVendaController {
 
@@ -37,12 +43,22 @@ public class ItemVendaController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de um Item de Venda")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Item de Venda encontrado"),
+            @ApiResponse(code = 404, message = "Item de Venda não encontrado")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<ItemVenda> item = service.getItemVendaById(id);
         return ResponseEntity.ok(item.map(ItemVendaDTO::create));
     }
 
-    @PostMapping
+    @PostMapping()
+    @ApiOperation("Salva um novo Item de Venda")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Item de Venda salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar um Item de Venda")
+    })
     public ResponseEntity<?> post(@RequestBody ItemVendaDTO dto) {
         try {
             ItemVenda item = converter(dto);

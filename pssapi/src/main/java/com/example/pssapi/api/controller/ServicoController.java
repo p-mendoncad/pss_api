@@ -7,6 +7,10 @@ import com.example.pssapi.model.entity.Cargo;
 import com.example.pssapi.service.CargoService;
 import com.example.pssapi.service.ServicoService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -21,6 +25,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/servicos")
 @RequiredArgsConstructor
+@Api("API de Produto")
+
 
 public class ServicoController {
 
@@ -33,6 +39,11 @@ public class ServicoController {
         return ResponseEntity.ok(servicos.stream().map(ServicoDTO::create).collect(Collectors.toList()));
     }
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de um Serviço")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Serviço encontrado"),
+            @ApiResponse(code = 404, message = "Serviço não encontrado")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Servico> servico = service.getServicoById(id);
         if (!servico.isPresent()) {
@@ -42,6 +53,11 @@ public class ServicoController {
     }
 
     @PostMapping()
+    @ApiOperation("Salva um nova Serviço ")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Serviço salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar uma Serviço")
+    })
     public ResponseEntity post(@RequestBody ServicoDTO dto) {
         try {
             Servico servico = converter(dto);

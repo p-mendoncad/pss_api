@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/agendamentos")
 @RequiredArgsConstructor
+@Api("API de Agendamentos")
+
 
 public class AgendamentoController {
 
@@ -41,7 +43,12 @@ public class AgendamentoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    @ApiOperation("Obter detalhes de um Agendamento")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Agendamento encontrado"),
+            @ApiResponse(code = 404, message = "Agendamento não encontrado")
+    })
+    public ResponseEntity get(@PathVariable("id") @ApiParam("Id do Agendamento") Long id) {
         Optional<Agendamento> agendamento = service.getAgendamentoById(id);
         if (!agendamento.isPresent()) {
             return new ResponseEntity("Agendamento não encontrado", HttpStatus.NOT_FOUND);
@@ -50,6 +57,11 @@ public class AgendamentoController {
     }
 
     @PostMapping()
+    @ApiOperation("Salva um novo Agendamento")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Agendamento salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar o Agendamento")
+    })
     public ResponseEntity post(@RequestBody AgendamentoDTO dto) {
         try {
             Agendamento agendamento = converter(dto);
