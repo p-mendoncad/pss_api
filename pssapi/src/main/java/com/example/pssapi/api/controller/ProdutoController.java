@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/produtos")
 @RequiredArgsConstructor
+@CrossOrigin
 @Api("API de Produto")
 
 public class ProdutoController {

@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/funcionarios")
 @RequiredArgsConstructor
+@CrossOrigin
 @Api("API de Funcionario")
 
 

@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/clientes")
 @RequiredArgsConstructor
+@CrossOrigin
 @Api("API de Clientes")
 
 
@@ -85,7 +86,7 @@ public class ClienteController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Cliente> cliente = service.getClienteById(id);
         if (!cliente.isPresent()) {
-            return new ResponseEntity("Aluno não encontrado", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("CLiente não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(cliente.get());

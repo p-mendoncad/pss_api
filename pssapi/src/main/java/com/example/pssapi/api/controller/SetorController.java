@@ -9,6 +9,10 @@ import com.example.pssapi.model.entity.Setor;
 import com.example.pssapi.model.entity.Setor;
 import com.example.pssapi.service.SetorService;
 import com.example.pssapi.service.SetorService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -23,6 +27,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/setores")
 @RequiredArgsConstructor
 @CrossOrigin
+@Api("API de Setor")
+
 
 public class SetorController {
 
@@ -35,6 +41,11 @@ public class SetorController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de um Setor")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Setor encontrado"),
+            @ApiResponse(code = 404, message = "Setor não encontrado")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Setor> setor = service.getSetorById(id);
         if (!setor.isPresent()) {
@@ -44,6 +55,11 @@ public class SetorController {
     }
 
     @PostMapping()
+    @ApiOperation("Salva um nova Setor ")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Setor salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar um Setor")
+    })
     public ResponseEntity post(@RequestBody SetorDTO dto) {
         try {
             Setor setor = converter(dto);

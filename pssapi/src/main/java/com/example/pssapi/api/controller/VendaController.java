@@ -5,15 +5,17 @@ import com.example.pssapi.api.dto.VendaDTO;
 import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.model.entity.Cliente;
 import com.example.pssapi.model.entity.ItemVenda;
-import com.example.pssapi.model.entity.Raca;
 import com.example.pssapi.model.entity.Venda;
 import com.example.pssapi.service.ItemVendaService;
 import com.example.pssapi.service.VendaService;
 import com.example.pssapi.service.ClienteService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.modelmapper.ModelMapper;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/vendas")
 @RequiredArgsConstructor
+@CrossOrigin
+@Api("API de Venda")
+
 
 public class VendaController {
 
@@ -38,6 +43,11 @@ public class VendaController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de uma Venda")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Venda encontrada"),
+            @ApiResponse(code = 404, message = "Venda não encontrada")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Venda> venda = service.getVendaById(id);
         if (!venda.isPresent()) {
@@ -47,6 +57,11 @@ public class VendaController {
     }
 
     @PostMapping()
+    @ApiOperation("Salva uma nova Venda ")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Venda salva com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar uma Venda")
+    })
     public ResponseEntity post(@RequestBody VendaDTO dto) {
         try {
             Venda venda = converter(dto);

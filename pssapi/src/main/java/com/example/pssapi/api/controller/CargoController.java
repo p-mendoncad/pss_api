@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/cargos")
 @RequiredArgsConstructor
+@CrossOrigin
 @Api("API de Cargos")
 
 

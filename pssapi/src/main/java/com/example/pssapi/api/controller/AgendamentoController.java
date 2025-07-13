@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/agendamentos")
 @RequiredArgsConstructor
+@CrossOrigin
 @Api("API de Agendamentos")
 
 
