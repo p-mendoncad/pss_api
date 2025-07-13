@@ -25,11 +25,12 @@ public class FuncionarioDTO {
     private String cidade;
     private String estado;
     private Long idCargo;
-    
+    private String nomeCargo;
+
     public static FuncionarioDTO create(Funcionario funcionario){
         ModelMapper modelMapper = new ModelMapper();
         FuncionarioDTO dto = modelMapper.map(funcionario, FuncionarioDTO.class);
-
+        dto.nomeCargo = funcionario.getCargo().getNome();
         return dto;
     }
 }

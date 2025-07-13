@@ -22,10 +22,16 @@ public class AgendamentoDTO {
     private Long idPet;
     private Long idFuncionario;
     private Long idServico;
+    private String nomePet;
+    private String nomeServico;
+    private String nomeFuncionario;
 
     public static AgendamentoDTO create(Agendamento agendamento){
         ModelMapper modelMapper = new ModelMapper();
         AgendamentoDTO dto = modelMapper.map(agendamento, AgendamentoDTO.class);
+        dto.nomePet = agendamento.getPet().getNome();
+        dto.nomeServico = agendamento.getServico().getNome();
+        //dto.nomeFuncionario = agendamento.getFuncionario().getNome();
 
         return dto;
     }

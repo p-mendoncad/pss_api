@@ -28,10 +28,12 @@ public class ProdutoDTO {
     private BigDecimal precoCompra;
     private Long idSetor;
     private Long idFornecedor;
+    private String nomeSetor;
 
     public static ProdutoDTO create(Produto produto){
         ModelMapper modelMapper = new ModelMapper();
         ProdutoDTO dto = modelMapper.map(produto, ProdutoDTO.class);
+        dto.nomeSetor = produto.getSetor().getNome();
 
         return dto;
     }

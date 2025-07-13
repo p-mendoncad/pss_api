@@ -23,11 +23,14 @@ public class PetDTO {
     private String histServ;
     private String obs;
     private Long idCliente;
+    private String nomeRaca;
+    private String nomeCliente;
 
     public static PetDTO create(Pet pet){
         ModelMapper modelMapper = new ModelMapper();
         PetDTO dto = modelMapper.map(pet, PetDTO.class);
-
+        dto.nomeRaca = pet.getRaca().getNome();
+        dto.nomeCliente = pet.getCliente().getNome();
         return dto;
     }
 }

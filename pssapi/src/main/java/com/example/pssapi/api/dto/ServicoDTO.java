@@ -16,13 +16,14 @@ public class ServicoDTO {
     private Long id;
     private Long idCargo;
     private String Nome;
+    private String nomeCargo;
     private BigDecimal preco;
     private int duracaoMinutos;
 
     public static ServicoDTO create(Servico servico){
         ModelMapper modelMapper = new ModelMapper();
         ServicoDTO dto = modelMapper.map(servico, ServicoDTO.class);
-
+        dto.nomeCargo = servico.getCargo().getNome();
         return dto;
     }
 }

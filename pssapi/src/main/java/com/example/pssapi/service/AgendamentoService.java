@@ -49,6 +49,10 @@ public class AgendamentoService {
         if (agendamento.getPet() == null || agendamento.getPet().getId() == null || agendamento.getPet().getId() == 0) {
             throw new RegraNegocioException("Agendamento inválido: Pet Inexistente ");
         }
+        if (agendamento.getFuncionario() == null || agendamento.getFuncionario().getId() == null || agendamento.getFuncionario().getId() == 0) {
+            throw new RegraNegocioException("Agendamento inválido: Funcionário Inexistente ");
+        }
+
         if (agendamento.getData() == null || agendamento.getData().trim() == "" || agendamento.getData().equals("0")) {
             throw new RegraNegocioException("Agendamento inválido: É necessário informar a data. ");
         }
