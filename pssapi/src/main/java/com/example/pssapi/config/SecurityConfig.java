@@ -1,4 +1,4 @@
-package com.example.pssapi.api.config;
+package com.example.pssapi.config;
 
 import com.example.pssapi.security.JwtAuthFilter;
 import com.example.pssapi.security.JwtService;

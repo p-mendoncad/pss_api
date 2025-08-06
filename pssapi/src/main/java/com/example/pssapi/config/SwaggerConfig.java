@@ -1,4 +1,4 @@
-package com.example.pssapi.api.config;
+package com.example.pssapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
