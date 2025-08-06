@@ -47,4 +47,27 @@ public class SwaggerConfig {
                 , "https://github.com/p-mendoncad/pss_api",
                 "gabrielferfernandes@outlook.com");
     }
+
+    public ApiKey apiKey(){
+        return new ApiKey("JWT", "Authorization", "header");
+    }
+
+    private SecurityContext securityContext(){
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any())
+                .build();
+    }
+
+    private List<SecurityReference> defaultAuth(){
+        AuthorizationScope authorizationScope = new AuthorizationScope(
+                "global", "accessEverything");
+        AuthorizationScope[] scopes = new AuthorizationScope[1];
+        scopes[0] = authorizationScope;
+        SecurityReference reference = new SecurityReference("JWT", scopes);
+        List<SecurityReference> auths = new ArrayList<>();
+        auths.add(reference);
+        return auths;
+    }
+
 }
