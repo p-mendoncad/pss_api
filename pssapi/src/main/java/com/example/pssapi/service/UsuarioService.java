@@ -1,6 +1,5 @@
 package com.example.pssapi.service;
 
-import com.example.pssapi.exception.RegraNegocioException;
 import com.example.pssapi.exception.SenhaInvalidaException;
 import com.example.pssapi.model.entity.Usuario;
 import com.example.pssapi.model.repository.UsuarioRepository;
@@ -13,10 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 @Service
 public class UsuarioService implements UserDetailsService {
 
@@ -26,25 +21,8 @@ public class UsuarioService implements UserDetailsService {
     @Autowired
     private UsuarioRepository repository;
 
-    public List<Usuario> getUsuarios() {
-        return repository.findAll();
-    }
-
-    public Optional<Usuario> getUsuarioById(Long id) {
-        return repository.findById(id);
-    }
-
-    public Optional<Usuario> getUsuarioByLogin(String login) {
-        return repository.findByLogin(login);
-    }
-
     @Transactional
     public Usuario salvar(Usuario usuario){
-        validar(usuario);
-        if (usuario.getId() == null) {
-            // Criptografar senha apenas para novos usuários
-            usuario.setSenha(encoder.encode(usuario.getSenha()));
-        }
         return repository.save(usuario);
     }
 
@@ -74,20 +52,5 @@ public class UsuarioService implements UserDetailsService {
                 .password(usuario.getSenha())
                 .roles(roles)
                 .build();
-    }
-
-    @Transactional
-    public void excluir(Usuario usuario) {
-        Objects.requireNonNull(usuario.getId());
-        repository.delete(usuario);
-    }
-
-    public void validar(Usuario usuario) {
-        if (usuario.getLogin() == null || usuario.getLogin().trim().equals("")) {
-            throw new RegraNegocioException("Login inválido");
-        }
-        if (usuario.getCpf() == null || usuario.getCpf().trim().equals("")) {
-            throw new RegraNegocioException("CPF inválido");
-        }
     }
 }
