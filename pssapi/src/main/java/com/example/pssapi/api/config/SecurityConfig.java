@@ -1,5 +1,7 @@
 package com.example.pssapi.api.config;
 
+import com.example.pssapi.security.JwtAuthFilter;
+import com.example.pssapi.security.JwtService;
 import com.example.pssapi.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,9 +23,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private JwtService jwtService;
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public OncePerRequestFilter jwtFilter(){
+        return new JwtAuthFilter(jwtService, usuarioService);
     }
 
     @Override
@@ -39,31 +49,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/alunos/**")
+                .antMatchers("/api/v1/auth/**")
                 .permitAll()
-                //.authenticated()
-                .antMatchers("/api/v1/atividadescomplementares/**")
+                .antMatchers("/api/v1/clientes/**")
                 .permitAll()
-                .antMatchers("/api/v1/concedentes/**")
+                .antMatchers("/api/v1/pets/**")
                 .permitAll()
-                .antMatchers("/api/v1/professores/**")
+                .antMatchers("/api/v1/agendamentos/**")
                 .permitAll()
-                .antMatchers("/api/v1/cursos/**")
+                .antMatchers("/api/v1/funcionarios/**")
                 .permitAll()
-                .antMatchers("/api/v1/categorias/**")
+                .antMatchers("/api/v1/produtos/**")
                 .permitAll()
-                .antMatchers("/api/v1/estagios/**")
-                .hasAnyRole("ADMIN")
-                .antMatchers("/api/v1/vagas/**")
-                .hasAnyRole("USER", "ADMIN")
-                .antMatchers( "/api/v1/usuarios/**")
+                .antMatchers("/api/v1/servicos/**")
                 .permitAll()
+                .antMatchers("/api/v1/racas/**")
+                .permitAll()
+                .antMatchers("/api/v1/setores/**")
+                .permitAll()
+                .antMatchers("/api/v1/vendas/**")
+                .permitAll()
+                .antMatchers("/api/v1/itemVendas/**")
+                .permitAll()
+                .antMatchers("/api/v1/usuarios/**")
+                .permitAll()
+                .antMatchers("/api/v1/cargos/**")
+                .hasRole("ADMIN")
+                .antMatchers("/api/v1/fornecedores/**")
+                .hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-        ;
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

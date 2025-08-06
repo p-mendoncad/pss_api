@@ -34,9 +34,17 @@ public class UsuarioService implements UserDetailsService {
         return repository.findById(id);
     }
 
+    public Optional<Usuario> getUsuarioByLogin(String login) {
+        return repository.findByLogin(login);
+    }
+
     @Transactional
     public Usuario salvar(Usuario usuario){
         validar(usuario);
+        if (usuario.getId() == null) {
+            // Criptografar senha apenas para novos usuários
+            usuario.setSenha(encoder.encode(usuario.getSenha()));
+        }
         return repository.save(usuario);
     }
 
