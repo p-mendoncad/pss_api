@@ -1,20 +1,13 @@
 package com.example.pssapi.api.controller;
 
-
 import com.example.pssapi.api.dto.PetDTO;
 import com.example.pssapi.exception.RegraNegocioException;
-import com.example.pssapi.model.entity.Cliente;
 import com.example.pssapi.model.entity.Pet;
-import com.example.pssapi.model.entity.Raca;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import lombok.RequiredArgsConstructor;
+import com.example.pssapi.service.ClienteService;
 import com.example.pssapi.service.PetService;
 import com.example.pssapi.service.RacaService;
-import com.example.pssapi.service.ClienteService;
-import org.modelmapper.ModelMapper;
+import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,59 +16,57 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @RestController
 @RequestMapping("/api/v1/pets")
 @RequiredArgsConstructor
 @CrossOrigin
 @Api("API de Pet")
-
-
 public class PetController {
-
     private final PetService service;
     private final RacaService racaService;
     private final ClienteService clienteService;
 
-    @GetMapping()
-    public ResponseEntity get() {
+    @GetMapping
+    public ResponseEntity<List<PetDTO>> getAll() {
         List<Pet> pets = service.getPets();
-        return ResponseEntity.ok(pets.stream().map(PetDTO::create).collect(Collectors.toList()));
+        List<PetDTO> dtos = pets.stream()
+                .map(PetDTO::create)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
+
     @GetMapping("/{id}")
     @ApiOperation("Obter detalhes de um Pet")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Pet não encontrado"),
+            @ApiResponse(code = 200, message = "Pet encontrado"),
             @ApiResponse(code = 404, message = "Pet não encontrado")
     })
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity<PetDTO> getById(@PathVariable Long id) {
         Optional<Pet> pet = service.getPetById(id);
-        if (!pet.isPresent()) {
-            return new ResponseEntity("Pet não encontrado", HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok(pet.map(PetDTO::create));
+        return pet.map(value -> ResponseEntity.ok(PetDTO.create(value)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping()
-    @ApiOperation("Salva um novo Pet")
+    @PostMapping
+    @ApiOperation("Salvar um novo Pet")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Pet salvo com sucesso"),
-            @ApiResponse(code = 400, message = "Erro ao salvar um Pet")
+            @ApiResponse(code = 400, message = "Erro ao salvar o Pet")
     })
-    public ResponseEntity post(@RequestBody PetDTO dto) {
+    public ResponseEntity<?> create(@RequestBody PetDTO dto) {
         try {
             Pet pet = converter(dto);
             pet = service.salvar(pet);
-            return new ResponseEntity(pet, HttpStatus.CREATED);
+            return ResponseEntity.status(HttpStatus.CREATED).body(pet);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id,@RequestBody PetDTO dto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PetDTO dto) {
         if (!service.getPetById(id).isPresent()) {
-            return new ResponseEntity("Pet não encontrado", HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
         try {
             Pet pet = converter(dto);
@@ -87,35 +78,39 @@ public class PetController {
         }
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity excluir(@PathVariable("id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<Pet> pet = service.getPetById(id);
         if (!pet.isPresent()) {
-            return new ResponseEntity("Pet não encontrado", HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
         try {
             service.excluir(pet.get());
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build();
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    public Pet converter(PetDTO dto) {
-        ModelMapper modelMapper = new ModelMapper();
-        Pet pet = modelMapper.map(dto, Pet.class);
+    private Pet converter(PetDTO dto) {
+        Pet pet = new Pet();
+        pet.setId(dto.getId());
+        pet.setNome(dto.getNome());
+        pet.setPeso(dto.getPeso());
+        pet.setDataNasc(dto.getDataNasc());
+        pet.setHistoVac(dto.getHistoVac());
+        pet.setSexo(dto.isSexo());
+        pet.setHistServ(dto.getHistServ());
+        pet.setObs(dto.getObs());
 
         if (dto.getIdRaca() != null) {
-            Optional<Raca> raca = racaService.getRacaById(dto.getIdRaca());
-            pet.setRaca(raca.orElse(null));
+            racaService.getRacaById(dto.getIdRaca()).ifPresent(pet::setRaca);
         }
 
         if (dto.getIdCliente() != null) {
-            Optional<Cliente> cliente = clienteService.getClienteById(dto.getIdCliente());
-            pet.setCliente(cliente.orElse(null));
+            clienteService.getClienteById(dto.getIdCliente()).ifPresent(pet::setCliente);
         }
 
         return pet;
     }
-
 }

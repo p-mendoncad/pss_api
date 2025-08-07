@@ -25,4 +25,5 @@ public class Pet {
     private String obs;
     @ManyToOne
     private Cliente cliente;
+
 }
